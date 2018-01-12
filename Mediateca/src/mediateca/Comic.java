@@ -10,31 +10,25 @@ package mediateca;
  * @author Ignacio
  */
 public class Comic extends Articulo{
-    private String guionista;
-    private String dibujante;
+    
+    private String ilustrador;
     private int paginas;
+    private String sinopsis;
 
-    public Comic(int id, String titulo, String guionista, String dibujante, int paginas) {
-        super(id, titulo);
-        this.guionista = guionista;
-        this.dibujante = dibujante;
+    //ojo que van primero los atributos propios de la clase y luego los de articulo
+    public Comic(String ilustrador, int paginas, String sinopsis, int id, String titulo, String autor, String genero, boolean reservado) {
+        super(id, titulo, autor, genero, reservado);
+        this.ilustrador = ilustrador;
         this.paginas = paginas;
+        this.sinopsis = sinopsis;
     }
 
-    public String getGuionista() {
-        return guionista;
+    public String getIlustrador() {
+        return ilustrador;
     }
 
-    public void setGuionista(String guionista) {
-        this.guionista = guionista;
-    }
-
-    public String getDibujante() {
-        return dibujante;
-    }
-
-    public void setDibujante(String dibujante) {
-        this.dibujante = dibujante;
+    public void setIlustrador(String ilustrador) {
+        this.ilustrador = ilustrador;
     }
 
     public int getPaginas() {
@@ -44,5 +38,13 @@ public class Comic extends Articulo{
     public void setPaginas(int paginas) {
         this.paginas = paginas;
     }
-    
+
+    public String getSinopsis() {
+        return sinopsis;
+    }
+
+    public void setSinopsis(String sinopsis) {
+        this.sinopsis = sinopsis;
+    }
+
 }

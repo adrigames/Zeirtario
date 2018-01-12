@@ -10,21 +10,31 @@ package mediateca;
  * @author Ignacio
  */
 public class Pelicula extends Articulo{
-    private String director;
+    private String actores;
+    private String sinopsis;
     private int duracion;
 
-    public Pelicula(int id, String titulo, String director, int duracion) {
-        super(id, titulo);
-        this.director = director;
+    public Pelicula(String actores, String sinopsis, int duracion, int id, String titulo, String autor, String genero, boolean reservado) {
+        super(id, titulo, autor, genero, reservado);
+        this.actores = actores;
+        this.sinopsis = sinopsis;
         this.duracion = duracion;
     }
 
-    public String getDirector() {
-        return director;
+    public String getActores() {
+        return actores;
     }
 
-    public void setDirector(String director) {
-        this.director = director;
+    public void setActores(String actores) {
+        this.actores = actores;
+    }
+
+    public String getSinopsis() {
+        return sinopsis;
+    }
+
+    public void setSinopsis(String sinopsis) {
+        this.sinopsis = sinopsis;
     }
 
     public int getDuracion() {
@@ -34,5 +44,6 @@ public class Pelicula extends Articulo{
     public void setDuracion(int duracion) {
         this.duracion = duracion;
     }
+
     
 }

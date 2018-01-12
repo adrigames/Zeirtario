@@ -10,39 +10,31 @@ package mediateca;
  * @author Ignacio
  */
 public class Libro extends Articulo{
-    private String autor;
-    private String genero;
+    
     private int paginas;
+    private String sinopsis;
 
-    public Libro(int id, String titulo, String autor, String genero, int paginas) {
-        super(id, titulo);
-        this.autor = autor;
-        this.genero = genero;
+    public Libro(int paginas, String sinopsis, int id, String titulo, String autor, String genero, boolean reservado) {
+        super(id, titulo, autor, genero, reservado);
         this.paginas = paginas;
-    }
-
-    public String getAutor() {
-        return autor;
-    }
-
-    public String getGenero() {
-        return genero;
+        this.sinopsis = sinopsis;
     }
 
     public int getPaginas() {
         return paginas;
     }
 
-    public void setAutor(String autor) {
-        this.autor = autor;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
-    }
-
     public void setPaginas(int paginas) {
         this.paginas = paginas;
     }
+
+    public String getSinopsis() {
+        return sinopsis;
+    }
+
+    public void setSinopsis(String sinopsis) {
+        this.sinopsis = sinopsis;
+    }
+    
     
 }

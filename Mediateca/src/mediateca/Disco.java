@@ -10,23 +10,12 @@ package mediateca;
  * @author Ignacio
  */
 public class Disco extends Articulo {
-    private String autor;
+    
     private int duracion;
-    private int numeroCanciones;
 
-    public Disco(int id, String titulo, String autor, int duracion, int numeroCanciones) {
-        super(id, titulo);
-        this.autor = autor;
+    public Disco(int duracion, int id, String titulo, String autor, String genero, boolean reservado) {
+        super(id, titulo, autor, genero, reservado);
         this.duracion = duracion;
-        this.numeroCanciones = numeroCanciones;
-    }
-
-    public String getAutor() {
-        return autor;
-    }
-
-    public void setAutor(String autor) {
-        this.autor = autor;
     }
 
     public int getDuracion() {
@@ -35,14 +24,6 @@ public class Disco extends Articulo {
 
     public void setDuracion(int duracion) {
         this.duracion = duracion;
-    }
-
-    public int getNumeroCanciones() {
-        return numeroCanciones;
-    }
-
-    public void setNumeroCanciones(int numeroCanciones) {
-        this.numeroCanciones = numeroCanciones;
     }
 
 }

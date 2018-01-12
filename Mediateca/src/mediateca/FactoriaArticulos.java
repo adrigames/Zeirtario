@@ -17,34 +17,34 @@ public class FactoriaArticulos {
     
     //incluirle un objeto de tipo proxy DB
     
-    Libro createLibro(String titulo, String autor, String genero, int paginas)
+    Libro createLibro(int paginas, String sinopsis, String titulo, String autor, String genero, boolean reservado)
     {
         int id = 0; //obtener id de la base de datos
-        Libro libroConstruido = new Libro( id, titulo, autor, genero, paginas);
+        Libro libroConstruido = new Libro( paginas, sinopsis, id, titulo, autor, genero, reservado);
         //meter en la base de datos y hacer void
         return libroConstruido;
     }
     
-    Comic createComic(String titulo, String guionista, String dibujante, int paginas)
+    Comic createComic(String ilustrador, int paginas, String sinopsis, String titulo, String autor, String genero, boolean reservado)
     {
         int id = 0; //obtener id de la base de datos
-        Comic comicConstruido = new Comic(id, titulo, guionista, dibujante, paginas);
+        Comic comicConstruido = new Comic(ilustrador, paginas, sinopsis, id, titulo, autor, genero, reservado);
         //meter en la base de datos y hacer void
         return comicConstruido;
     }
     
-    Pelicula createPelicula(String titulo, String director, int duracion)
+    Pelicula createPelicula(String actores, String sinopsis, int duracion, String titulo, String autor, String genero, boolean reservado)
     {
         int id = 0; //obtener id de la base de datos
-        Pelicula peliculaConstruida = new Pelicula(id, titulo, director, duracion);
+        Pelicula peliculaConstruida = new Pelicula( actores, sinopsis, duracion, id, titulo, autor, genero, reservado);
         //meter en la base de datos y hacer void
         return peliculaConstruida;
     }
     
-    Disco createDisco(String titulo, String autor, int duracion, int numeroCanciones)
+    Disco createDisco(int duracion, String titulo, String autor, String genero, boolean reservado)
     {
         int id = 0; //obtener id de la base de datos
-        Disco discoConstruido = new Disco(id, titulo, autor, duracion, numeroCanciones);
+        Disco discoConstruido = new Disco( duracion, id, titulo, autor, genero, reservado);
         //meter en la base de datos y hacer void
         return discoConstruido;
     }
