@@ -8,6 +8,7 @@ import mediateca.Comic;
 import mediateca.Libro;
 import mediateca.Pelicula;
 import mediateca.Disco;
+import proxy.proxyQuery;
 
 /**
  *
@@ -16,6 +17,11 @@ import mediateca.Disco;
 public class FactoriaArticulos {
     
     //incluirle un objeto de tipo proxy DB
+    private proxyQuery proxyDB;
+    
+    public FactoriaArticulos(proxyQuery proxyDB) {
+        this.proxyDB = proxyDB;
+    }
     
     Libro createLibro(int paginas, String sinopsis, String titulo, String autor, String genero, boolean reservado)
     {

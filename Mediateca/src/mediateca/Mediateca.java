@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package mediateca;
-
+import mediateca.FactoriaArticulos;
+import mediateca.Usuario;
+import proxy.proxyQuery;
 /**
  *
  * @author Ignacio
@@ -12,5 +14,14 @@ package mediateca;
 public class Mediateca {
     //factoria
     //proxy
+    //
+    public FactoriaArticulos factoria = null;
+    public proxyQuery proxyDB = null;
+   
+
+    public Mediateca() {
+        this.proxyDB = new proxyQuery();
+        this.factoria = new FactoriaArticulos(proxyDB);
+    }
     
 }
