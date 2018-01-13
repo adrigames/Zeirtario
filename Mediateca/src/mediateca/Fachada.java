@@ -10,18 +10,28 @@ package mediateca;
  * @author Ignacio
  */
 public class Fachada {
-    private static Fachada fachada = null;
-    public Mediateca mediateca = null;
+    private static Fachada fachada;
+    public static Mediateca mediateca = null;
     
     private Fachada() {
         mediateca = new Mediateca();
     }
     
-    public Fachada getInstancia() {
+    public static Fachada getInstancia() {
         if(fachada == null)
         {
             fachada = new Fachada();
         }
         return fachada;
     }
+    
+    public static Usuario getUsuario(){
+        if(mediateca == null)
+        {
+            return null;
+        }else{
+            return mediateca.usuario;
+        }
+    }
+    
 }

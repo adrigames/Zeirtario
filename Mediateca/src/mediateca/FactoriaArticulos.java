@@ -18,6 +18,7 @@ public class FactoriaArticulos {
     
     //incluirle un objeto de tipo proxy DB
     private proxyQuery proxyDB;
+    public Usuario usuarioConectado = null;
     
     public FactoriaArticulos(proxyQuery proxyDB) {
         this.proxyDB = proxyDB;
@@ -25,6 +26,8 @@ public class FactoriaArticulos {
     
     Libro createLibro(int paginas, String sinopsis, String titulo, String autor, String genero, boolean reservado)
     {
+        //ver si existe ese libro (por titulo)
+        //si no existe, se introduce, sino no
         int id = 0; //obtener id de la base de datos
         Libro libroConstruido = new Libro( paginas, sinopsis, id, titulo, autor, genero, reservado);
         //meter en la base de datos y hacer void
@@ -33,6 +36,8 @@ public class FactoriaArticulos {
     
     Comic createComic(String ilustrador, int paginas, String sinopsis, String titulo, String autor, String genero, boolean reservado)
     {
+         //ver si existe ese comic (por titulo)
+        //si no existe, se introduce, sino no
         int id = 0; //obtener id de la base de datos
         Comic comicConstruido = new Comic(ilustrador, paginas, sinopsis, id, titulo, autor, genero, reservado);
         //meter en la base de datos y hacer void
@@ -41,6 +46,8 @@ public class FactoriaArticulos {
     
     Pelicula createPelicula(String actores, String sinopsis, int duracion, String titulo, String autor, String genero, boolean reservado)
     {
+         //ver si existe ese pelicula (por titulo)
+        //si no existe, se introduce, sino no
         int id = 0; //obtener id de la base de datos
         Pelicula peliculaConstruida = new Pelicula( actores, sinopsis, duracion, id, titulo, autor, genero, reservado);
         //meter en la base de datos y hacer void
@@ -49,6 +56,8 @@ public class FactoriaArticulos {
     
     Disco createDisco(int duracion, String titulo, String autor, String genero, boolean reservado)
     {
+         //ver si existe ese disco (por titulo)
+        //si no existe, se introduce, sino no
         int id = 0; //obtener id de la base de datos
         Disco discoConstruido = new Disco( duracion, id, titulo, autor, genero, reservado);
         //meter en la base de datos y hacer void

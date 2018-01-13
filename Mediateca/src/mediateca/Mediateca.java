@@ -17,6 +17,7 @@ public class Mediateca {
     //
     public FactoriaArticulos factoria = null;
     public proxyQuery proxyDB = null;
+    public Usuario usuario = null;
    
 
     public Mediateca() {
