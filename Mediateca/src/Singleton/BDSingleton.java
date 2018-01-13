@@ -7,6 +7,8 @@ package Singleton;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Adrian
@@ -14,9 +16,9 @@ import java.util.ArrayList;
 public class BDSingleton {
     
     private static BDSingleton instancia = new BDSingleton();
-    String url = "jdbc:derby://localhost:1527/Mediateca";
-    Connection conn = null;
-    Statement stm = null;
+    private String url = "jdbc:derby://localhost:1527/Mediateca";
+    private Connection conn;
+    private Statement stm;
     
     public BDSingleton() {
     }
@@ -25,38 +27,48 @@ public class BDSingleton {
         return instancia;
     }
     
-    public boolean insertarOBorrar(String sentencia){
+    public boolean abrirConexion(){
         try{
-            Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
-            conn = DriverManager.getConnection(url);
-            stm = conn.createStatement();
-            stm.execute(sentencia);
-            stm.close();
-            conn.close();
-            stm = null;
-            conn = null;
-            return true;
+        Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
+        conn = DriverManager.getConnection(url);
+        return true;
         }catch(Exception e){
             e.printStackTrace();
             
+            return false;
+        }
+    }
+    
+    public boolean ejecutarSentencia(String sentencia){
+        try{
+            stm = conn.createStatement();
+            stm.execute(sentencia);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
             return false;
     }
     }
     public ResultSet seleccionar(String sentencia){
         try{
-            Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
-            conn = DriverManager.getConnection(url);
             stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sentencia);
-            stm.close();
-            conn.close();
-            stm = null;
-            conn = null;
             return rs;
             
         }catch(Exception e){
             e.printStackTrace();
             return null;
         }
+    }
+    public boolean cerrarConexion(){
+        try {
+            stm.close();
+            conn.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        
     }
 }

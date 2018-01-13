@@ -4,7 +4,12 @@
  * and open the template in the editor.
  */
 package test;
+import java.awt.Component;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Adrian
@@ -16,21 +21,35 @@ public class test {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        
-        String url = "jdbc:derby://localhost:1527/Mediateca";
-        Connection conn = null;
-        Statement stm =null;
-        System.out.println("URL: "+url);
-        try{
-            
-            System.out.println("Creando conexion");
-            Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
-            conn = DriverManager.getConnection(url);
-            stm = conn.createStatement();
-            stm.execute("Insert into ARTICULO values (2,'NOMBRE','AUTOOR','MISTERIO','LIBRO',FALSE)");
-            stm.close();
-        }catch(Exception ex){
-            System.err.println(ex.toString());
+        List<String> crunchifyList = new ArrayList<String>();
+       crunchifyList.add("eBay");
+		crunchifyList.add("Paypal");
+		crunchifyList.add("Google");
+		crunchifyList.add("Yahoo");
+ 
+		// iterate via "for loop"
+		System.out.println("==> For Loop Example.");
+		for (int i = 0; i < crunchifyList.size(); i++) {
+			System.out.println(crunchifyList.get(i));
+		}
+ 
+		// iterate via "New way to loop"
+		System.out.println("\n==> Advance For Loop Example..");
+		for (String temp : crunchifyList) {
+			System.out.println(temp);
+		}
+ 
+		// iterate via "iterator loop"
+		System.out.println("\n==> Iterator Example...");
+		Iterator<String> crunchifyIterator = crunchifyList.iterator();
+		while (crunchifyIterator.hasNext()) {
+			System.out.println(crunchifyIterator.next());
+		}
+    }
+
+    static class Articulo {
+
+        public Articulo() {
         }
     }
     
