@@ -18,8 +18,9 @@ public class Usuario {
     private int edad;
     private String email;
     private boolean admin;
+    private String pass;
 
-    public Usuario(int id, String nombre, String apellido, String dni, String sexo, int edad, String email, boolean admin) {
+    public Usuario(int id, String nombre, String apellido, String dni, String sexo, int edad, String email, boolean admin,String pass) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -28,6 +29,7 @@ public class Usuario {
         this.edad = edad;
         this.email = email;
         this.admin = admin;
+        this.pass = pass;
     }
 
     public int getId() {
@@ -36,6 +38,14 @@ public class Usuario {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 
     public String getNombre() {

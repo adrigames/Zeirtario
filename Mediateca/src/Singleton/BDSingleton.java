@@ -16,9 +16,9 @@ import java.util.logging.Logger;
 public class BDSingleton {
     
     private static BDSingleton instancia = new BDSingleton();
-    private String url = "jdbc:derby://localhost:1527/Mediateca";
-    private Connection conn;
-    private Statement stm;
+    private static String url = "jdbc:derby://localhost:1527/Mediateca";
+    private static Connection conn;
+    private  Statement stm;
     
     public BDSingleton() {
     }
@@ -31,6 +31,7 @@ public class BDSingleton {
         try{
         Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
         conn = DriverManager.getConnection(url);
+        stm = conn.createStatement();
         return true;
         }catch(Exception e){
             e.printStackTrace();
@@ -41,13 +42,29 @@ public class BDSingleton {
     
     public boolean ejecutarSentencia(String sentencia){
         try{
-            stm = conn.createStatement();
-            stm.execute(sentencia);
+            
+            stm.executeUpdate(sentencia);
             return true;
         }catch(Exception e){
             e.printStackTrace();
             return false;
     }
+    }
+    
+    public int dameClave(){
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM ARTICULO");
+            ResultSet rs = ps.executeQuery();
+            int aux = 0;
+            while(rs.next()){
+                 aux = rs.getInt("CLAVE");
+            }
+
+            return aux;
+        } catch (SQLException ex) {
+            Logger.getLogger(BDSingleton.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
     }
     public ResultSet seleccionar(String sentencia){
         try{

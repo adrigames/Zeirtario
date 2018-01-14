@@ -6,7 +6,7 @@
 package mediateca;
 import mediateca.FactoriaArticulos;
 import mediateca.Usuario;
-import proxy.proxyQuery;
+import proxy.ProxyQuery;
 /**
  *
  * @author Ignacio
@@ -16,12 +16,12 @@ public class Mediateca {
     //proxy
     //
     public FactoriaArticulos factoria = null;
-    public proxyQuery proxyDB = null;
+    public ProxyQuery proxyDB = null;
     public Usuario usuario = null;
    
 
     public Mediateca() {
-        this.proxyDB = new proxyQuery();
+        this.proxyDB = new ProxyQuery();
         this.factoria = new FactoriaArticulos(proxyDB);
     }
     

@@ -8,7 +8,7 @@ import mediateca.Comic;
 import mediateca.Libro;
 import mediateca.Pelicula;
 import mediateca.Disco;
-import proxy.proxyQuery;
+import proxy.ProxyQuery;
 
 /**
  *
@@ -17,10 +17,10 @@ import proxy.proxyQuery;
 public class FactoriaArticulos {
     
     //incluirle un objeto de tipo proxy DB
-    private proxyQuery proxyDB;
+    private ProxyQuery proxyDB;
     public Usuario usuarioConectado = null;
     
-    public FactoriaArticulos(proxyQuery proxyDB) {
+    public FactoriaArticulos(ProxyQuery proxyDB) {
         this.proxyDB = proxyDB;
     }
     
