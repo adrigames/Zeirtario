@@ -135,8 +135,22 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
         String usuario = jTextField1.getText();
         String contrasena = jTextField2.getText();
-        new UsuarioContrasenaError().setVisible(true);
-        
+        boolean login = Fachada.logearse(usuario, contrasena);
+        if (login){
+            //si es un usuario correcto con su contraseña, se mira si es admin o no
+            if(Fachada.getAdminUser())
+            {
+                //si el usuario logeado es admin, se le abre la pestaña de admin
+                new InterfazAdmin().setVisible(true);
+            }else{
+                //si no es admin, la normal
+                new InterfazUsuario().setVisible(true);
+            }
+            this.dispose();
+        }else{
+            //si se ha metido mal el user o la pass, se le notifica al usuario
+            new UsuarioContrasenaError().setVisible(true);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

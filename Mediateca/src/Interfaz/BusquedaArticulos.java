@@ -6,6 +6,7 @@
 package Interfaz;
 
 import javax.swing.table.DefaultTableModel;
+import mediateca.Fachada;
 import strategy.*;
 
 /**
@@ -167,6 +168,7 @@ public class BusquedaArticulos extends javax.swing.JFrame {
         cmbComparar = new javax.swing.JComboBox<>();
         cmbTipo = new javax.swing.JComboBox<>();
         btnBuscar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -306,6 +308,13 @@ public class BusquedaArticulos extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Cancelar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -329,6 +338,7 @@ public class BusquedaArticulos extends javax.swing.JFrame {
                                         .addComponent(cmbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(lblDuracion)
@@ -356,7 +366,11 @@ public class BusquedaArticulos extends javax.swing.JFrame {
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(lblGenero, javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(lblIlustrador, javax.swing.GroupLayout.Alignment.TRAILING))))
-                            .addComponent(btnBuscar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnBuscar)
+                                .addGap(22, 22, 22)
+                                .addComponent(jButton1)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtGenero)
@@ -400,8 +414,10 @@ public class BusquedaArticulos extends javax.swing.JFrame {
                     .addComponent(lblComparar)
                     .addComponent(cmbComparar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnBuscar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBuscar)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -460,6 +476,17 @@ public class BusquedaArticulos extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if(Fachada.getAdminUser())
+        {
+            new InterfazAdmin().setVisible(true);
+        }else{
+            new InterfazUsuario().setVisible(true);
+        }
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -500,6 +527,7 @@ public class BusquedaArticulos extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbComparar;
     private javax.swing.JComboBox<String> cmbOrden;
     private javax.swing.JComboBox<String> cmbTipo;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblActores;
     private javax.swing.JLabel lblAutor;

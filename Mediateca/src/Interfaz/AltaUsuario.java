@@ -5,6 +5,8 @@
  */
 package Interfaz;
 
+import mediateca.Fachada;
+
 /**
  *
  * @author Ignacio
@@ -254,9 +256,34 @@ public class AltaUsuario extends javax.swing.JFrame {
         dni = jTextField3.getText();
         sexo = jComboBox1.getSelectedItem().toString();
         edad = jTextField4.getText(); //convertir a int
+        int edadInt;
+        try{
+            edadInt = Integer.valueOf(edad);
+        }catch(NumberFormatException e){
+            edadInt = -1;
+        }
         email = jTextField5.getText();
         contrasena = jTextField6.getText();
         contrasena2 = jTextField7.getText();
+        boolean respuesta = false;
+        
+        if(edadInt <= 0 || !contrasena.equals(contrasena2))
+        {
+            //datos mal
+            new CamposError().setVisible(true);
+        }else{
+            //intentamos crear el usuario
+            respuesta = Fachada.crearUsuario(nombre, apellido, edadInt, dni, sexo, email, contrasena);
+        }
+        
+        if(respuesta)//usuario logeado
+        {
+            new Home().setVisible(true);
+            this.dispose();
+        }else{
+            new ErrorCreacionUsuario().setVisible(true);
+        }
+        
         //llamariamos a fachada introducir usuario (retorna el usuario si se ha creado, sino que devuelva null)
         //si se ha introducido, confirmacion y salir al menu home
         

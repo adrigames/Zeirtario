@@ -25,13 +25,29 @@ public class Fachada {
         return fachada;
     }
     
-    public static Usuario getUsuario(){
+    public static boolean getAdminUser(){
         if(mediateca == null)
         {
-            return null;
+            return false;
         }else{
-            return mediateca.usuario;
+            return mediateca.usuario.isAdmin();
         }
+    }
+    
+    public static void desconectarUsuario(){
+        mediateca.desconectarUsuario();
+    }
+    
+    public static boolean logearse(String usuario, String contraseña){
+        boolean respuesta = false;
+        //metodo logearse del proxy que devuelve false si ha habido error, true si se ha logeado
+        return respuesta;
+    }
+    
+    public static boolean crearUsuario(String nombre, String apellido, int edad, String dni, String sexo, String email, String contrasena){
+        boolean respuesta = false;
+        //metodo del proxy que de de alta un usuario y devuleva true si se ha intoducido correctamente
+        return respuesta;
     }
     
 }

@@ -25,4 +25,8 @@ public class Mediateca {
         this.factoria = new FactoriaArticulos(proxyDB);
     }
     
+    public void desconectarUsuario(){
+        usuario = null;
+    }
+    
 }
