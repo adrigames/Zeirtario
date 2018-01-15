@@ -234,4 +234,18 @@ public class ProxyQuery {
         );
         return res;
     }
+    
+    public Usuario dameUsuario (String dni){
+        return null;
+    }
+    public ArrayList<Usuario> obtenerUsuariosNoAdmin(){
+        //devolverá una lista con los usuarios no admin
+        return null;
+    }
+    
+    public boolean hacerAdmin(String dni){
+        boolean respuesta = false;
+        //modificar ese usuario para que sea admin
+        return respuesta;
+    }
 }
