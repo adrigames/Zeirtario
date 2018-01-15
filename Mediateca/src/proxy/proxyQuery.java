@@ -21,8 +21,10 @@ import mediateca.*;
  */
 public class ProxyQuery {
     private BDSingleton conexion = BDSingleton.getInstancia();
+    
     public ProxyQuery() {
     }
+    
     public boolean validarSentencia(String sentencia){
         if(sentencia.contains(";")|| sentencia.contains("(") || sentencia.contains(")")){
             Component frame = null;
@@ -230,16 +232,59 @@ public class ProxyQuery {
              rs.getString("TITULO"),
              rs.getString("AUTOR"),
              rs.getString("GENERO"),
-             true
+             rs.getBoolean("RESERVADO")
         );
         return res;
     }
     
-    public Usuario dameUsuario (String dni){
+    public Usuario dameUsuario(ResultSet rs) throws SQLException{
+        Usuario u = new Usuario();
+        u.setId(rs.getInt("CLAVE"));
+        u.setNombre(rs.getString("NOMBRE"));
+        u.setApellido(rs.getString("APELLIDO"));
+        u.setDni(rs.getString("DNI"));
+        u.setSexo(rs.getString("SEXO"));
+        u.setEdad(rs.getInt("EDAD"));
+        u.setAdmin(rs.getBoolean("ADMIN"));
+        u.setPass(rs.getString("PASS"));
+        return u;
+    }
+     
+    public Usuario cargaUsuario (String dni){
+        if(validarSentencia(dni)){
+            String sent = "SELECT * FROM USUARIO WHERE DNI = '" + dni + "'";
+            if(conexion.abrirConexion()){
+                try {
+                    ResultSet rs = conexion.seleccionar(sent);
+                    Usuario res = null;
+                    if(rs.next())
+                        res = dameUsuario(rs);
+                    conexion.cerrarConexion();
+                    return res;
+                } catch (SQLException ex) {
+                    Logger.getLogger(ProxyQuery.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
         return null;
     }
+    
     public ArrayList<Usuario> obtenerUsuariosNoAdmin(){
         //devolverá una lista con los usuarios no admin
+        String sent = "SELECT * FROM USUARIO WHERE ADMIN = FALSE";
+        if(conexion.abrirConexion()){
+            try {
+                ArrayList<Usuario> u= new ArrayList<Usuario>();
+                ResultSet rs = conexion.seleccionar(sent);
+                while(rs.next()){
+                    Usuario aux = dameUsuario(rs);
+                    u.add(aux);
+                }
+                return u;
+            } catch (SQLException ex) {
+                Logger.getLogger(ProxyQuery.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         return null;
     }
     
