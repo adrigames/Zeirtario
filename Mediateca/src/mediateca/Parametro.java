@@ -17,6 +17,17 @@ public class Parametro {
         this.nombre = nombre;
         this.valor = valor;
     }
+    public Parametro(){
+        
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setValor(String valor) {
+        this.valor = valor;
+    }
 
     public String getNombre() {
         return nombre;

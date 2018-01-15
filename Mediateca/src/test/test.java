@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import mediateca.Comic;
 import mediateca.Disco;
 import mediateca.Libro;
+import mediateca.Parametro;
 import mediateca.Pelicula;
 import mediateca.Usuario;
 import proxy.ProxyQuery;
@@ -28,10 +29,9 @@ public class test {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-       Libro a = new Libro(1,"SE TE ",2,"sE","sEEE","sEEEEE",false);
+       ArrayList<Parametro> r = new ArrayList<Parametro>();
        ProxyQuery m = new ProxyQuery();
-       m.insertarLibro(a);
-        
+       m.seleccionarArticulo(r);
     }
 
     static class Articulo {

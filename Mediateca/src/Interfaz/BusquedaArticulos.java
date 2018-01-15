@@ -5,8 +5,12 @@
  */
 package Interfaz;
 
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import mediateca.Articulo;
 import mediateca.Fachada;
+import mediateca.Parametro;
+import proxy.ProxyQuery;
 import strategy.*;
 
 /**
@@ -20,6 +24,8 @@ public class BusquedaArticulos extends javax.swing.JFrame {
      */
     private Contexto con;
     private Estrategia est = new estrategiaTitulo();
+    private ArrayList<Articulo> resultado= new ArrayList<Articulo>();
+    private ProxyQuery proxy = new ProxyQuery(); 
     
     //Enumeraciones
     //Tipo
@@ -121,6 +127,26 @@ public class BusquedaArticulos extends javax.swing.JFrame {
         }
     }
     
+    private void borrarFiltrosEspecificos(){
+    txtDuracion.setText("");
+    txtPaginas.setText("");
+    txtIlustrador.setText("");
+    txtActores.setText("");
+    
+    }
+    
+    private void cargarGrid(ArrayList<Articulo> a){
+        DefaultTableModel modelo = (DefaultTableModel) tablaResultados.getModel();
+        modelo.setRowCount(0);
+        Object rowData[] = new Object[3];
+        for(int i = 0; i<a.size(); i++){
+            rowData[0] = a.get(i).getTitulo();
+            rowData[1] = a.get(i).getAutor();
+            rowData[2] = a.get(i).getGenero();
+            modelo.addRow(rowData);
+        }
+    }
+    
     private void cambiarEstrategia(){
         switch(ordenActivo){
             case TITULO:
@@ -133,6 +159,31 @@ public class BusquedaArticulos extends javax.swing.JFrame {
                 est = new estrategiaGenero();
                 break;
         }
+    }
+    
+    private ArrayList<Parametro> dameParametros(){
+        Parametro p;
+        ArrayList<Parametro> lista = new ArrayList<Parametro>();
+        String prueba = txtTitulo.getText();
+        if(!txtTitulo.getText().isEmpty()){
+            p = new Parametro();
+            p.setNombre("TITULO");
+            p.setValor(txtTitulo.getText());
+            lista.add(p);
+        }
+        if(!txtAutor.getText().isEmpty()){
+            p = new Parametro();
+            p.setNombre("AUTOR");
+            p.setValor(txtAutor.getText());
+            lista.add(p);
+        }
+        if(!txtGenero.getText().isEmpty()){
+            p = new Parametro();
+            p.setNombre("GENERO");
+            p.setValor(txtTitulo.getText());
+            lista.add(p);
+        }
+        return lista;
     }
     
     /**
@@ -470,10 +521,15 @@ public class BusquedaArticulos extends javax.swing.JFrame {
         tipoActivo = cmbTipo.getSelectedIndex();
         mostrarCampos();
         mostrarTabla();
+        borrarFiltrosEspecificos();
     }//GEN-LAST:event_cmbTipoActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
+        ArrayList<Parametro> oParametro = dameParametros();
+        resultado = proxy.seleccionarArticulo(oParametro);
+        cargarGrid(resultado);
+        
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
