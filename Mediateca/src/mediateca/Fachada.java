@@ -57,11 +57,9 @@ public class Fachada {
     }
     
     public static ArrayList<String> usuariosNoAdmin(){
-        if(mediateca.usuariosNoAdmin() != null){
-            return mediateca.usuariosNoAdmin();
-        }else{
-            return new ArrayList<String>();
-        }
+        
+        return mediateca.usuariosNoAdmin();
+        
     }
     
     public static boolean insertarComic(String titulo, String autor, String ilustrador, String genero, int paginas, String sinopsis){

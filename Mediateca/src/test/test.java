@@ -29,9 +29,9 @@ public class test {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-       ArrayList<Parametro> r = new ArrayList<Parametro>();
-       ProxyQuery m = new ProxyQuery();
-       m.seleccionarArticulo(r);
+       ProxyQuery p = new ProxyQuery();
+       Usuario u = p.cargaUsuario("TEST");
+       System.out.println(u.getApellido());
     }
 
     static class Articulo {

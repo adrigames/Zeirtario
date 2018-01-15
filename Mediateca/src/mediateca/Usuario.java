@@ -31,6 +31,8 @@ public class Usuario {
         this.admin = admin;
         this.pass = pass;
     }
+    
+    public Usuario(){};
 
     public int getId() {
         return id;

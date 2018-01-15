@@ -180,7 +180,7 @@ public class BusquedaArticulos extends javax.swing.JFrame {
         if(!txtGenero.getText().isEmpty()){
             p = new Parametro();
             p.setNombre("GENERO");
-            p.setValor(txtTitulo.getText());
+            p.setValor(txtGenero.getText());
             lista.add(p);
         }
         return lista;

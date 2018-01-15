@@ -7,6 +7,7 @@ package Interfaz;
 
 import mediateca.Fachada;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -19,9 +20,25 @@ public class HacerAdmin extends javax.swing.JFrame {
      */
     public HacerAdmin() {
         initComponents();
-        
+        inicializar();
     }
 
+    
+    public void inicializar(){
+
+        ArrayList <String> listaUsuarios = Fachada.getInstancia().usuariosNoAdmin();//mediateca.usuariosNoAdmin();
+        if(listaUsuarios != null){
+            
+            Iterator i = listaUsuarios.iterator();
+            while(i.hasNext()){
+                //mientras tenga usuarios sigue
+                jComboBox1.addItem(i.next().toString());
+                i.remove();
+            }
+        }
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,7 +55,6 @@ public class HacerAdmin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lista usuarios", " " }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -99,6 +115,7 @@ public class HacerAdmin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         new InterfazAdmin().setVisible(true);
@@ -118,14 +135,14 @@ public class HacerAdmin extends javax.swing.JFrame {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
         //meter usuarios a la combo box
-        ArrayList <String> listaUsuarios = Fachada.getInstancia().usuariosNoAdmin();//mediateca.usuariosNoAdmin();
-        if(listaUsuarios.iterator() != null){
+        /*ArrayList <String> listaUsuarios = Fachada.getInstancia().usuariosNoAdmin();//mediateca.usuariosNoAdmin();
+        if(listaUsuarios != null){
             while(listaUsuarios.iterator().hasNext()){
                 //mientras tenga usuarios sigue
                 jComboBox1.addItem(listaUsuarios.iterator().next());
                 listaUsuarios.iterator().remove();
             }
-        }
+        }*/
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**

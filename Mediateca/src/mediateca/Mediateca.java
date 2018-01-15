@@ -5,6 +5,7 @@
  */
 package mediateca;
 import java.util.ArrayList;
+import java.util.Iterator;
 import mediateca.FactoriaArticulos;
 import mediateca.Usuario;
 import proxy.ProxyQuery;
@@ -32,7 +33,7 @@ public class Mediateca {
     
     public boolean logIn(String dni, String contrasena){
         boolean respuesta = false;
-        Usuario u = proxyDB.dameUsuario(dni) ;//= buscarUsuarioProxy(nombre
+        Usuario u = proxyDB.cargaUsuario(dni) ;//= buscarUsuarioProxy(nombre
         //coger user de la base de datos
         if(u == null)
         {
@@ -40,7 +41,7 @@ public class Mediateca {
             respuesta = false;
             this.usuarioConectado = null;
         }else{
-            if(u.getPass() == contrasena){
+            if(u.getPass().equalsIgnoreCase(contrasena)){
                 //usuario logeado correctamente
                 respuesta = true;
                 this.usuarioConectado = u;
@@ -59,10 +60,12 @@ public class Mediateca {
         ArrayList<String> listaNombres = new ArrayList();
         Usuario uAux;
         if(listaUsuarios != null){
-             while (listaUsuarios.iterator().hasNext()) {
-                uAux = listaUsuarios.iterator().next();
+            Iterator i = listaUsuarios.iterator();
+             while (i.hasNext()) {
+                uAux = (Usuario) i.next();
+                
                 boolean funciona = listaNombres.add(uAux.getDni() + "," + uAux.getNombre() + "," + uAux.getApellido());
-                listaUsuarios.iterator().remove();
+                //listaUsuarios.iterator();
             }
         }
         return listaNombres;

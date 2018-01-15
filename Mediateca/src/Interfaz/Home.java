@@ -135,7 +135,7 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
         String dni = jTextField1.getText().toUpperCase();
         String contrasena = jTextField2.getText().toUpperCase();
-        boolean login = Fachada.logearse(dni, contrasena);
+        boolean login = Fachada.getInstancia().logearse(dni, contrasena);
         if (login){
             //si es un usuario correcto con su contraseña, se mira si es admin o no
             if(Fachada.getAdminUser())
