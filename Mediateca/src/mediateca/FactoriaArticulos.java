@@ -41,8 +41,18 @@ public class FactoriaArticulos {
         int id = 0; //obtener id de la base de datos
         Comic comicConstruido = new Comic(ilustrador, paginas, sinopsis, id, titulo, autor, genero, reservado);
         //meter en la base de datos y hacer void
+        //boolean respuesta = proxyDB.insertarComic(comicConstruido);
         return comicConstruido;
     }
+    /*Comic createComic(String ilustrador, int paginas, String sinopsis, String titulo, String autor, String genero, boolean reservado)
+    {
+         //ver si existe ese comic (por titulo)
+        //si no existe, se introduce, sino no
+        int id = 0; //obtener id de la base de datos
+        Comic comicConstruido = new Comic(ilustrador, paginas, sinopsis, id, titulo, autor, genero, reservado);
+        //meter en la base de datos y hacer void
+        return comicConstruido;
+    }*/
     
     Pelicula createPelicula(String actores, String sinopsis, int duracion, String titulo, String autor, String genero, boolean reservado)
     {

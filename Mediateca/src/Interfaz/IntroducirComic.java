@@ -5,6 +5,8 @@
  */
 package Interfaz;
 
+import mediateca.Fachada;
+
 /**
  *
  * @author Ignacio
@@ -168,14 +170,32 @@ public class IntroducirComic extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         //introducir comic
-        String titulo = jTextField1.getText();
-        String autor = jTextField2.getText();
-        String ilustrador = jTextField3.getText();
-        String genero = jTextField4.getText();
-        String paginas = jTextField5.getText();
-        String sinopsis = jTextArea1.getText();
-        new InterfazAdmin().setVisible(true);
-        this.dispose();
+        String titulo = jTextField1.getText().toUpperCase();
+        String autor = jTextField2.getText().toUpperCase();
+        String ilustrador = jTextField3.getText().toUpperCase();
+        String genero = jTextField4.getText().toUpperCase();
+        String paginas = jTextField5.getText().toUpperCase();
+        String sinopsis = jTextArea1.getText().toUpperCase();
+        boolean respuesta =false;
+        int paginasInt;
+        try{
+            paginasInt = Integer.valueOf(paginas);
+        }catch(NumberFormatException e){
+            paginasInt = -1;
+        }
+        //si los campos estan vacios
+        if(titulo.equalsIgnoreCase("") || autor.equalsIgnoreCase("") || ilustrador.equalsIgnoreCase("") || genero.equalsIgnoreCase("") || paginas.equalsIgnoreCase("") || sinopsis.equalsIgnoreCase("")){
+            new CamposError().setVisible(true);
+        }else{
+            if(paginasInt <= 0){
+                //si la edad no es valida
+                new CamposError().setVisible(true);
+            }else{
+                Fachada.getInstancia().insertarComic(titulo, autor, ilustrador, genero, paginasInt, sinopsis);
+                new InterfazAdmin().setVisible(true);
+                this.dispose();
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

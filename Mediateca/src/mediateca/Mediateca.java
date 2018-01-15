@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package mediateca;
+import java.util.ArrayList;
 import mediateca.FactoriaArticulos;
 import mediateca.Usuario;
 import proxy.ProxyQuery;
@@ -17,7 +18,7 @@ public class Mediateca {
     //
     public FactoriaArticulos factoria = null;
     public ProxyQuery proxyDB = null;
-    public Usuario usuario = null;
+    public Usuario usuarioConectado = null;
    
 
     public Mediateca() {
@@ -26,7 +27,49 @@ public class Mediateca {
     }
     
     public void desconectarUsuario(){
-        usuario = null;
+        usuarioConectado = null;
     }
     
+    public boolean logIn(String dni, String contrasena){
+        boolean respuesta = false;
+        Usuario u = proxyDB.dameUsuario(dni) ;//= buscarUsuarioProxy(nombre
+        //coger user de la base de datos
+        if(u == null)
+        {
+            //usuario no existe
+            respuesta = false;
+            this.usuarioConectado = null;
+        }else{
+            if(u.getPass() == contrasena){
+                //usuario logeado correctamente
+                respuesta = true;
+                this.usuarioConectado = u;
+            }else{
+                //contrasena erronea
+                respuesta = false;
+                this.usuarioConectado = null;
+            }
+        }
+        return respuesta;
+    }
+    
+    public ArrayList<String> usuariosNoAdmin()
+    {
+        ArrayList<Usuario> listaUsuarios = proxyDB.obtenerUsuariosNoAdmin();
+        ArrayList<String> listaNombres = new ArrayList();
+        Usuario uAux;
+        if(listaUsuarios != null){
+             while (listaUsuarios.iterator().hasNext()) {
+                uAux = listaUsuarios.iterator().next();
+                boolean funciona = listaNombres.add(uAux.getDni() + "," + uAux.getNombre() + "," + uAux.getApellido());
+                listaUsuarios.iterator().remove();
+            }
+        }
+        return listaNombres;
+    }
+    
+    public boolean insertarComic(String titulo, String autor, String ilustrador, String genero, int paginas, String sinopsis){
+        Comic comic = factoria.createComic(ilustrador, paginas, sinopsis, titulo, autor, genero, false); //false por no reservado
+        return proxyDB.insertarComic(comic);
+    }
 }

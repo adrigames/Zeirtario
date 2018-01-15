@@ -5,6 +5,9 @@
  */
 package Interfaz;
 
+import mediateca.Fachada;
+import java.util.ArrayList;
+
 /**
  *
  * @author Ignacio
@@ -16,7 +19,7 @@ public class HacerAdmin extends javax.swing.JFrame {
      */
     public HacerAdmin() {
         initComponents();
-        //meter usuarios a la combo box
+        
     }
 
     /**
@@ -36,6 +39,11 @@ public class HacerAdmin extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lista usuarios", " " }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("¿Qué usuario quieres hacer administrador?");
@@ -101,8 +109,24 @@ public class HacerAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
         new InterfazAdmin().setVisible(true);
         //hacer al usuario admin
+        String usuario = jComboBox1.getSelectedItem().toString();
+        String[] splitedLista = usuario.split(",");//separa el dni, nombre y apellido
+        boolean respuesta = Fachada.getInstancia().mediateca.proxyDB.hacerAdmin(splitedLista[0]);//cogemos el primer elemento ue es el dni
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        //meter usuarios a la combo box
+        ArrayList <String> listaUsuarios = Fachada.getInstancia().usuariosNoAdmin();//mediateca.usuariosNoAdmin();
+        if(listaUsuarios.iterator() != null){
+            while(listaUsuarios.iterator().hasNext()){
+                //mientras tenga usuarios sigue
+                jComboBox1.addItem(listaUsuarios.iterator().next());
+                listaUsuarios.iterator().remove();
+            }
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -135,6 +159,7 @@ public class HacerAdmin extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new HacerAdmin().setVisible(true);
+                
             }
         });
     }

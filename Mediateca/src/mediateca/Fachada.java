@@ -5,6 +5,8 @@
  */
 package mediateca;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Ignacio
@@ -30,7 +32,7 @@ public class Fachada {
         {
             return false;
         }else{
-            return mediateca.usuario.isAdmin();
+            return mediateca.usuarioConectado.isAdmin();
         }
     }
     
@@ -38,16 +40,33 @@ public class Fachada {
         mediateca.desconectarUsuario();
     }
     
-    public static boolean logearse(String usuario, String contraseña){
+    public static boolean logearse(String dni, String contrasena){
         boolean respuesta = false;
         //metodo logearse del proxy que devuelve false si ha habido error, true si se ha logeado
+        //Usuario user = mediateca.proxyDB.
+        respuesta = mediateca.logIn(dni , contrasena);
         return respuesta;
     }
     
     public static boolean crearUsuario(String nombre, String apellido, int edad, String dni, String sexo, String email, String contrasena){
-        boolean respuesta = false;
+        boolean respuesta;
         //metodo del proxy que de de alta un usuario y devuleva true si se ha intoducido correctamente
+        Usuario u = new Usuario(0,nombre, apellido, dni, sexo, edad, email, false, contrasena); //ponemos el id a 0 pero la base de datos lo ignorara, y admin falso por defecto
+        respuesta = mediateca.proxyDB.insertarUsuario(u);
         return respuesta;
     }
     
+    public static ArrayList<String> usuariosNoAdmin(){
+        if(mediateca.usuariosNoAdmin() != null){
+            return mediateca.usuariosNoAdmin();
+        }else{
+            return new ArrayList<String>();
+        }
+    }
+    
+    public static boolean insertarComic(String titulo, String autor, String ilustrador, String genero, int paginas, String sinopsis){
+        return mediateca.insertarComic(titulo, autor, ilustrador, genero, paginas, sinopsis);
+    }
+    //public static boolean insertarLibro
+    //public static boolean insertarUsuario
 }

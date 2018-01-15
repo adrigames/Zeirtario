@@ -251,20 +251,20 @@ public class AltaUsuario extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        nombre = jTextField1.getText();
-        apellido = jTextField2.getText();
-        dni = jTextField3.getText();
-        sexo = jComboBox1.getSelectedItem().toString();
-        edad = jTextField4.getText(); //convertir a int
+        nombre = jTextField1.getText().toUpperCase();
+        apellido = jTextField2.getText().toUpperCase();
+        dni = jTextField3.getText().toUpperCase();
+        sexo = jComboBox1.getSelectedItem().toString().toUpperCase();
+        edad = jTextField4.getText().toUpperCase();; //convertir a int
         int edadInt;
         try{
             edadInt = Integer.valueOf(edad);
         }catch(NumberFormatException e){
             edadInt = -1;
         }
-        email = jTextField5.getText();
-        contrasena = jTextField6.getText();
-        contrasena2 = jTextField7.getText();
+        email = jTextField5.getText().toUpperCase();
+        contrasena = jTextField6.getText().toUpperCase();
+        contrasena2 = jTextField7.getText().toUpperCase();
         boolean respuesta = false;
         
         if(edadInt <= 0 || !contrasena.equals(contrasena2))
@@ -273,7 +273,7 @@ public class AltaUsuario extends javax.swing.JFrame {
             new CamposError().setVisible(true);
         }else{
             //intentamos crear el usuario
-            respuesta = Fachada.crearUsuario(nombre, apellido, edadInt, dni, sexo, email, contrasena);
+            respuesta = Fachada.getInstancia().crearUsuario(nombre, apellido, edadInt, dni, sexo, email, contrasena);
         }
         
         if(respuesta)//usuario logeado
@@ -283,11 +283,6 @@ public class AltaUsuario extends javax.swing.JFrame {
         }else{
             new ErrorCreacionUsuario().setVisible(true);
         }
-        
-        //llamariamos a fachada introducir usuario (retorna el usuario si se ha creado, sino que devuelva null)
-        //si se ha introducido, confirmacion y salir al menu home
-        
-        //sino mensaje error
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
