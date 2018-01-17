@@ -108,6 +108,7 @@ public class BusquedaArticulos extends javax.swing.JFrame {
     private void mostrarTabla(){
         DefaultTableModel modelo = (DefaultTableModel) tablaResultados.getModel();
         modelo.setColumnCount(3);
+        modelo.setRowCount(0);
         switch(tipoActivo){
             case NINGUNO:
                 break;
