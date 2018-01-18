@@ -18,6 +18,8 @@ public class Disco extends Articulo {
         this.duracion = duracion;
     }
 
+
+
     public int getDuracion() {
         return duracion;
     }

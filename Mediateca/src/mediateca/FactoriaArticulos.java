@@ -17,14 +17,14 @@ import proxy.ProxyQuery;
 public class FactoriaArticulos {
     
     //incluirle un objeto de tipo proxy DB
-    private ProxyQuery proxyDB;
+  
     public Usuario usuarioConectado = null;
     
-    public FactoriaArticulos(ProxyQuery proxyDB) {
-        this.proxyDB = proxyDB;
+    public FactoriaArticulos() {
+    
     }
     
-    Articulo createArticulo(String tipo, String titulo, String autor, String genero, boolean reservado, int enteroAux, String sinopsis, String cadenaAux){
+    public Articulo createArticulo(String tipo, String titulo, String autor, String genero, boolean reservado, int enteroAux, String sinopsis, String cadenaAux){
         Articulo nuevoArticulo = null;
         //los articulos tienen entre 1 y 3 nuevos campos respecto articulo, por lo que se especificará que atributos usa cada uno
         //libro usará enteroAux como paginas y Sinposis como sinopsis

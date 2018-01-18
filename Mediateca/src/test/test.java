@@ -30,8 +30,7 @@ public class test {
     public static void main(String[] args) {
         // TODO code application logic here
        ProxyQuery p = new ProxyQuery();
-       Usuario u = p.cargaUsuario("TEST");
-       System.out.println(u.getApellido());
+       ArrayList<Disco> a = p.seleccionarDisco(" DURACION = 35 ");
     }
 
     static class Articulo {

@@ -24,7 +24,7 @@ public class Mediateca {
 
     public Mediateca() {
         this.proxyDB = new ProxyQuery();
-        this.factoria = new FactoriaArticulos(proxyDB);
+        this.factoria = new FactoriaArticulos();
     }
     
     public void desconectarUsuario(){

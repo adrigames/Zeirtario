@@ -528,7 +528,7 @@ public class BusquedaArticulos extends javax.swing.JFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         ArrayList<Parametro> oParametro = dameParametros();
-        resultado = proxy.seleccionarArticulo(oParametro);
+        //resultado = proxy.seleccionarArticulo(oParametro);
         cargarGrid(resultado);
         
     }//GEN-LAST:event_btnBuscarActionPerformed
