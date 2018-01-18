@@ -152,6 +152,13 @@ public class ProxyQuery {
     }
     
     public boolean reservarArticulo(int id_articulo, int id_usuario){
+        
+        ArrayList<Usuario> obs = observandoArticulo(id_articulo);
+        
+        for(int i = 0; i<obs.size(); i++){
+        notificarUsuario("alquiler", obs.get(i).getId(), id_articulo);
+        }
+        
         String sent = "INSERT INTO TABLE RESERVAS(ID_ARTICULO, ID_USUARIO) VALUES ("+id_articulo+","+id_usuario+")";
         if(conexion.abrirConexion()&&conexion.ejecutarSentencia(sent) && conexion.cerrarConexion()){
             return true;
@@ -162,6 +169,44 @@ public class ProxyQuery {
     public boolean observarArticulo(int id_articulo, int id_usuario){
         String sent = "INSERT INTO TABLE OBSERVACIONES(ID_ARTICULO, ID_USUARIO) VALUES ("+id_articulo+","+id_usuario+")";
         if(conexion.abrirConexion()&&conexion.ejecutarSentencia(sent) && conexion.cerrarConexion()){
+            return true;
+        }
+        return false;
+    }
+    
+    // REGION DELETES
+    
+    public boolean bajaUsuario(int id_usuario){
+        String s = "DELETE FROM USUARIO WHERE CLAVE = " + id_usuario;
+        if(conexion.abrirConexion()&&conexion.ejecutarSentencia(s) && conexion.cerrarConexion()){
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean bajaArticulo(int id_articulo){
+        ArrayList<Usuario> obs = observandoArticulo(id_articulo);
+        
+        for(int i = 0; i<obs.size(); i++){
+        notificarUsuario("alquiler", obs.get(i).getId(), id_articulo);
+        }
+        
+        String s = "DELETE FROM ARTICULO WHERE CLAVE = " +id_articulo;
+        if(conexion.abrirConexion()&&conexion.ejecutarSentencia(s) && conexion.cerrarConexion()){
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean devolverArticulo(int id_articulo){
+        ArrayList<Usuario> obs = observandoArticulo(id_articulo);
+        
+        for(int i = 0; i<obs.size(); i++){
+        notificarUsuario("alquiler", obs.get(i).getId(), id_articulo);
+        }
+        
+        String s = "DELETE FROM RESERVAS WHERE CLAVE = " +id_articulo;
+        if(conexion.abrirConexion()&&conexion.ejecutarSentencia(s) && conexion.cerrarConexion()){
             return true;
         }
         return false;
@@ -386,6 +431,41 @@ public class ProxyQuery {
         return null;
     }
     
+    public ArrayList<Usuario> observandoArticulo(int id_articulo){
+        String s = "SELECT * FROM OBSERVACIONES WHERE ID_ARTICULO = " +id_articulo;
+        if(conexion.abrirConexion()){
+            try {
+                ArrayList<Usuario> u= new ArrayList<Usuario>();
+                ResultSet rs = conexion.seleccionar(s);
+                while(rs.next()){
+                    Usuario aux = dameUsuario(rs);
+                    u.add(aux);
+                }
+                return u;
+            } catch (SQLException ex) {
+                Logger.getLogger(ProxyQuery.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return null;
+    }
+    
+    public Articulo cargarArticulo(int id){
+        String sent = "SELECT * FROM ARTICULOS WHERE CLAVE = "+id;
+        
+            if(!conexion.abrirConexion())
+                return null;
+            ResultSet rs = conexion.seleccionar(sent);
+            try {
+                if(rs.next()){
+                     return dameArticulo(rs);
+                }
+                conexion.cerrarConexion();
+
+            } catch (SQLException ex) {
+                Logger.getLogger(ProxyQuery.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        return null;
+    }
     //METODOS PRIVADOS
     
     private String dameAviso(ResultSet rs) throws SQLException{
@@ -470,6 +550,22 @@ public class ProxyQuery {
         return d;
     }
     
+    private boolean notificarUsuario(String notificacion, int id_usuario, int id_articulo){
+        String s = "INSERT INTO AVISOS(ID_USUARIO, AVISOS) VALUES (" + id_usuario +",";
+        Articulo a = cargarArticulo(id_articulo);
+        if (notificacion.equals("baja")){
+            s+="' SE HA DADO DE BAJA EL ARTICULO " + a.getTitulo() + "')";
+        }else if (notificacion.equals("alquiler")){
+            s+="' SE HA ALQUILADO EL ARTICULO " + a.getTitulo() + "')";
+        }else if (notificacion.equals("devolucion")){
+            s+="' SE HA DEVUELTO EL ARTICULO " + a.getTitulo() + "')";
+        }
+        if(conexion.abrirConexion()&&conexion.ejecutarSentencia(s) && conexion.cerrarConexion()){
+            return true;
+        }
+        return false;
+    }
+    
     private boolean validarSentencia(String sentencia){
         if(sentencia.contains(";")|| sentencia.contains("(") || sentencia.contains(")")){
             Component frame = null;
@@ -481,5 +577,7 @@ public class ProxyQuery {
             return true;
         }
     }
+    
+    
     
 }
