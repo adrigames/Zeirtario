@@ -20,20 +20,20 @@ public class Usuario {
     private boolean admin;
     private String pass;
 
-    public Usuario(int id, String nombre, String apellido, String dni, String sexo, int edad, String email, boolean admin,String pass) {
-        this.id = id;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.dni = dni;
-        this.sexo = sexo;
-        this.edad = edad;
-        this.email = email;
-        this.admin = admin;
-        this.pass = pass;
+    public Usuario(){
+        this.id = 0;
+        this.nombre = "modelo";
+        this.apellido = "modelo2";
+        this.dni = "modelo";
+        this.sexo = "nulo";
+        this.edad = 0;
+        this.email = "correo@modelo.es";
+        this.admin = false;
+        this.pass = "modelo";
     }
     
-    public Usuario(){};
-
+    
+    
     public int getId() {
         return id;
     }

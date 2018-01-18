@@ -20,7 +20,7 @@ public class Mediateca {
     public FactoriaArticulos factoria = null;
     public ProxyQuery proxyDB = null;
     public Usuario usuarioConectado = null;
-   
+    public String tipoSiguienteArticulo = null;
 
     public Mediateca() {
         this.proxyDB = new ProxyQuery();
@@ -29,6 +29,16 @@ public class Mediateca {
     
     public void desconectarUsuario(){
         usuarioConectado = null;
+    }
+    
+    public void configurarUsuario(Usuario u, String nombre, String apellido, String dni, String sexo, int edad, String email, boolean admin,String pass) {
+        u.setApellido(apellido);
+        u.setDni(dni);
+        u.setEdad(edad);
+        u.setEmail(email);
+        u.setNombre(nombre);
+        u.setPass(pass);
+        u.setSexo(sexo);
     }
     
     public boolean logIn(String dni, String contrasena){
@@ -75,4 +85,24 @@ public class Mediateca {
         Comic comic = factoria.createComic(ilustrador, paginas, sinopsis, titulo, autor, genero, false); //false por no reservado
         return proxyDB.insertarComic(comic);
     }
+    
+    public boolean insertarArticulo(String tipo, String titulo, String autor, String genero, boolean reservado, int enteroAux, String sinopsis, String cadenaAux)
+    {
+        Articulo articulo = factoria.createArticulo(tipo, titulo, autor, genero, reservado, enteroAux, sinopsis, cadenaAux);
+        boolean respuesta = false;
+        if(tipo.equalsIgnoreCase("libro")){
+            respuesta = proxyDB.insertarLibro((Libro) articulo);
+        }
+        if(tipo.equalsIgnoreCase("comic")){
+            respuesta = proxyDB.insertarComic((Comic) articulo);
+        }
+        if(tipo.equalsIgnoreCase("disco")){
+            respuesta = proxyDB.insertarAudio((Disco) articulo);
+        }
+        if(tipo.equalsIgnoreCase("pelicula")){
+            respuesta = proxyDB.insertarCine((Pelicula) articulo);
+        }
+        return respuesta;
+    }
+    
 }

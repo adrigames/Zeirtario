@@ -5,6 +5,8 @@
  */
 package Interfaz;
 
+import mediateca.Fachada;
+
 /**
  *
  * @author Ignacio
@@ -135,8 +137,27 @@ public class IntroducirDisco extends javax.swing.JFrame {
         String autor = jTextField2.getText();
         String genero = jTextField3.getText();
         String duracion = jTextField4.getText();
-        new InterfazAdmin().setVisible(true);
-        this.dispose();
+        boolean respuesta =false;
+        int duracionInt;
+        try{
+            duracionInt = Integer.valueOf(duracion);
+        }catch(NumberFormatException e){
+            duracionInt = -1;
+        }
+        //si los campos estan vacios
+        if(titulo.equalsIgnoreCase("") || autor.equalsIgnoreCase("") || genero.equalsIgnoreCase("") || duracion.equalsIgnoreCase("")){
+            new CamposError().setVisible(true);
+        }else{
+            if(duracionInt <= 0){
+                //si la edad no es valida
+                new CamposError().setVisible(true);
+            }else{
+                String tipo = Fachada.getInstancia().mediateca.tipoSiguienteArticulo;
+                Fachada.getInstancia().insertarElemento(tipo, titulo, autor, genero, duracionInt, null, null);
+                new InterfazAdmin().setVisible(true);
+                this.dispose();
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

@@ -191,7 +191,8 @@ public class IntroducirComic extends javax.swing.JFrame {
                 //si la edad no es valida
                 new CamposError().setVisible(true);
             }else{
-                Fachada.getInstancia().insertarComic(titulo, autor, ilustrador, genero, paginasInt, sinopsis);
+                String tipo = Fachada.getInstancia().mediateca.tipoSiguienteArticulo;
+                Fachada.getInstancia().insertarElemento(tipo, titulo, autor, genero, paginasInt, sinopsis, ilustrador);
                 new InterfazAdmin().setVisible(true);
                 this.dispose();
             }

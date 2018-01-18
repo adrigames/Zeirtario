@@ -5,6 +5,8 @@
  */
 package Interfaz;
 
+import mediateca.Fachada;
+
 /**
  *
  * @author Ignacio
@@ -164,9 +166,28 @@ public class IntroducirLibro extends javax.swing.JFrame {
         String autor = jTextField2.getText();
         String genero = jTextField3.getText();
         String paginas = jTextField4.getText();
-        String sinpsis = jTextArea1.getText();
-        new InterfazAdmin().setVisible(true);
-        this.dispose();
+        String sinopsis = jTextArea1.getText();
+        boolean respuesta =false;
+        int paginasInt;
+        try{
+            paginasInt = Integer.valueOf(paginas);
+        }catch(NumberFormatException e){
+            paginasInt = -1;
+        }
+        //si los campos estan vacios
+        if(titulo.equalsIgnoreCase("") || autor.equalsIgnoreCase("") || genero.equalsIgnoreCase("") || paginas.equalsIgnoreCase("") || sinopsis.equalsIgnoreCase("")){
+            new CamposError().setVisible(true);
+        }else{
+            if(paginasInt <= 0){
+                //si la edad no es valida
+                new CamposError().setVisible(true);
+            }else{
+                String tipo = Fachada.getInstancia().mediateca.tipoSiguienteArticulo;
+                Fachada.getInstancia().insertarElemento(tipo, titulo, autor, genero, paginasInt, sinopsis, null);
+                new InterfazAdmin().setVisible(true);
+                this.dispose();
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
