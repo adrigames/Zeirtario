@@ -6,6 +6,7 @@
 package mediateca;
 
 import java.util.ArrayList;
+import java.lang.String;
 
 /**
  *
@@ -68,8 +69,21 @@ public class Fachada {
     }
     
     public static boolean insertarComic(String titulo, String autor, String ilustrador, String genero, int paginas, String sinopsis){
+        //sobra
         return mediateca.insertarComic(titulo, autor, ilustrador, genero, paginas, sinopsis);
     }
-    //public static boolean insertarLibro
-    //public static boolean insertarUsuario
+    
+    public static boolean hacerAdmin(String dni){
+        return mediateca.proxyDB.hacerAdmin(dni);
+    }
+    
+    public static ArrayList<String> sacarObjetosUsuario(){
+        return mediateca.articulosUsuario();
+    }
+    
+    public static boolean devolverArticulo(String id){
+        boolean respuesta;
+        respuesta = mediateca.proxyDB.devolverArticulo(id);
+        return respuesta;
+    }
 }

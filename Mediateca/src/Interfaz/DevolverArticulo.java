@@ -5,6 +5,8 @@
  */
 package Interfaz;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import mediateca.Fachada;
 
 /**
@@ -18,6 +20,7 @@ public class DevolverArticulo extends javax.swing.JFrame {
      */
     public DevolverArticulo() {
         initComponents();
+        inicializar();
     }
 
     /**
@@ -37,6 +40,11 @@ public class DevolverArticulo extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lista de articulos", " " }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Seleccione el articulo que desea devolver");
@@ -96,6 +104,9 @@ public class DevolverArticulo extends javax.swing.JFrame {
         // TODO add your handling code here:
         boolean respuesta = Fachada.getAdminUser();
         //devolver articulo
+        String articulo = jComboBox1.getSelectedItem().toString();
+        String id = articulo.split(",")[0];
+        boolean devuelto = Fachada.getInstancia().devolverArticulo(id);
         if(respuesta)
         {
             new InterfazAdmin().setVisible(true);
@@ -116,6 +127,10 @@ public class DevolverArticulo extends javax.swing.JFrame {
         }
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -152,6 +167,20 @@ public class DevolverArticulo extends javax.swing.JFrame {
         });
     }
 
+    public void inicializar(){
+
+        ArrayList <String> listaArticulos = Fachada.getInstancia().sacarObjetosUsuario();//mediateca.usuariosNoAdmin();
+        if(listaArticulos != null){
+            
+            Iterator i = listaArticulos.iterator();
+            while(i.hasNext()){
+                //mientras tenga usuarios sigue
+                jComboBox1.addItem(i.next().toString());
+                i.remove();
+            }
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
