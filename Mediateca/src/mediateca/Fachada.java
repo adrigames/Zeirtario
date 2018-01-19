@@ -78,7 +78,15 @@ public class Fachada {
     }
     
     public static Articulo articuloUsuario(int id){
-        return Fachada.getInstancia().mediateca.proxyDB.verReserva(id);
+        return mediateca.proxyDB.verReserva(id);
+    }
+    
+    public static boolean reservarArticulo(int idA, int idU){
+        return mediateca.proxyDB.reservarArticulo(idA, idU);
+    }
+    
+    public static boolean estaObservando(int idA, int idU){
+        return mediateca.proxyDB.observandoArticulo(idA, idU);
     }
     
     public static boolean bajaUsuario(int id){
@@ -100,5 +108,19 @@ public class Fachada {
     
     public static ArrayList<String> verAvisos(int id){
         return mediateca.proxyDB.verAvisos(id);
+    }
+    
+    public static String dameTipo(int id){
+        return mediateca.proxyDB.dameTipo(id);
+    }
+    
+    public static Articulo cargaArticulo(int id){
+        return mediateca.proxyDB.cargarArticulo(id);
+    }
+    public static boolean observarArticulo(int idA, int idU){
+        return mediateca.proxyDB.observarArticulo(idA, idU);
+    }
+    public static boolean noObservarArticulo(int idA, int idU){
+        return mediateca.proxyDB.dejarObservar(idA, idU);
     }
 }

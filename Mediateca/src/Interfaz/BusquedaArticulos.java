@@ -6,11 +6,13 @@
 package Interfaz;
 
 import adapter.Adapter;
+import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import mediateca.Articulo;
 import mediateca.*;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import mediateca.Fachada;
 import mediateca.Parametro;
 import proxy.ProxyQuery;
@@ -165,7 +167,7 @@ public class BusquedaArticulos extends javax.swing.JFrame {
                 break;
         }
         for(int i = 0; i<a.size(); i++){
-            
+            System.out.println(a.get(i).getClass());
             switch(tipoActivo){
                 case AUDIO:
                     rowData[0] = a.get(i).getTitulo();
@@ -348,6 +350,7 @@ public class BusquedaArticulos extends javax.swing.JFrame {
         cmbTipo = new javax.swing.JComboBox<>();
         btnBuscar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        btnVer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -502,6 +505,13 @@ public class BusquedaArticulos extends javax.swing.JFrame {
             }
         });
 
+        btnVer.setText("Ver");
+        btnVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -557,6 +567,8 @@ public class BusquedaArticulos extends javax.swing.JFrame {
                                 .addComponent(btnBuscar)
                                 .addGap(22, 22, 22)
                                 .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnVer)
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -603,7 +615,8 @@ public class BusquedaArticulos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBuscar)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(btnVer))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -684,6 +697,19 @@ public class BusquedaArticulos extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
+        // TODO add your handling code here:
+        int i = tablaResultados.getSelectedRow();
+        if(i == -1){
+        Component frame = null;
+        JOptionPane.showMessageDialog(frame, "Por favor, seleccione un articulo","Advertencia",JOptionPane.WARNING_MESSAGE);
+        }else{
+            
+         new VerArticulo(resultado.get(i).getId()).setVisible(true);
+             this.dispose();
+        }
+    }//GEN-LAST:event_btnVerActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -721,6 +747,7 @@ public class BusquedaArticulos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnVer;
     private javax.swing.JComboBox<String> cmbComparar;
     private javax.swing.JComboBox<String> cmbOrden;
     private javax.swing.JComboBox<String> cmbTipo;
