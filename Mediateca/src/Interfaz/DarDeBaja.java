@@ -5,6 +5,15 @@
  */
 package Interfaz;
 
+import adapter.Adapter;
+import java.awt.Component;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import mediateca.Articulo;
+import mediateca.Fachada;
+import mediateca.Parametro;
+
 /**
  *
  * @author Ignacio
@@ -14,10 +23,30 @@ public class DarDeBaja extends javax.swing.JFrame {
     /**
      * Creates new form DarDeBaja
      */
+    
+    ArrayList<Articulo> lista = new ArrayList<Articulo>();
+    
     public DarDeBaja() {
         initComponents();
+        InicializarTabla();
+    }
+    
+    public void InicializarTabla(){
+        DefaultTableModel modelo = (DefaultTableModel) miTabla.getModel();
+        modelo.setRowCount(0);
+        Adapter a = new Adapter();
+        ArrayList<Parametro> p = new ArrayList<Parametro>();
+        lista = a.seleccionarArticulo(p);
+        Object rowData[] = new Object [3];
+        for(int i = 0; i<lista.size();i++){
+            rowData[0] = lista.get(i).getTitulo();
+            rowData[1] = lista.get(i).getAutor();
+            rowData[2] = lista.get(i).getGenero();
+            modelo.addRow(rowData);
+        }
     }
 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,7 +58,8 @@ public class DarDeBaja extends javax.swing.JFrame {
 
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        miTabla = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,33 +77,38 @@ public class DarDeBaja extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+        miTabla.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        miTabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Titulo", "Genero", "Autor"
             }
-        });
+        ));
+        jScrollPane1.setViewportView(miTabla);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(89, 89, 89)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(89, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(81, 81, 81)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addGap(75, 75, 75))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(118, 118, 118)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
+                .addGap(39, 39, 39)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -85,8 +120,18 @@ public class DarDeBaja extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        new InterfazAdmin().setVisible(true);
-        this.dispose();
+        
+        int i = miTabla.getSelectedRow();
+        System.out.println(lista.get(i).getTitulo());
+        if(Fachada.getInstancia().bajaArticulo(lista.get(i).getId())){
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "Se ha dado de baja el articulo " + lista.get(i).getTitulo(),"Informacion",JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "Ha ocurrido un error durante la baja del articulo " + lista.get(i).getTitulo(),"Informacion",JOptionPane.INFORMATION_MESSAGE);
+        }
+        InicializarTabla();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -94,19 +139,6 @@ public class DarDeBaja extends javax.swing.JFrame {
         new InterfazAdmin().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-        //meter usuarios a la combo box
-        /*ArrayList <String> listaUsuarios = Fachada.getInstancia().usuariosNoAdmin();//mediateca.usuariosNoAdmin();
-        if(listaUsuarios != null){
-            while(listaUsuarios.iterator().hasNext()){
-                //mientras tenga usuarios sigue
-                jComboBox1.addItem(listaUsuarios.iterator().next());
-                listaUsuarios.iterator().remove();
-            }
-        }*/
-    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -146,6 +178,7 @@ public class DarDeBaja extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable miTabla;
     // End of variables declaration//GEN-END:variables
 }

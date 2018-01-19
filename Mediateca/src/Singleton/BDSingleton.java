@@ -5,10 +5,12 @@
  */
 package Singleton;
 
+import java.awt.Component;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Adrian
@@ -34,7 +36,8 @@ public class BDSingleton {
         stm = conn.createStatement();
         return true;
         }catch(Exception e){
-            e.printStackTrace();
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "Ha ocurrido un error durante conexion con la BBDD","Error",JOptionPane.ERROR_MESSAGE);
             
             return false;
         }
@@ -46,7 +49,8 @@ public class BDSingleton {
             stm.executeUpdate(sentencia);
             return true;
         }catch(Exception e){
-            e.printStackTrace();
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "Ha ocurrido un error durante conexion con la BBDD","Error",JOptionPane.ERROR_MESSAGE);
             return false;
     }
     }
@@ -62,10 +66,12 @@ public class BDSingleton {
 
             return aux;
         } catch (SQLException ex) {
-            Logger.getLogger(BDSingleton.class.getName()).log(Level.SEVERE, null, ex);
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "Ha ocurrido un error durante conexion con la BBDD","Error",JOptionPane.ERROR_MESSAGE);
             return 0;
         }
     }
+    
     public ResultSet seleccionar(String sentencia){
         try{
             stm = conn.createStatement();
@@ -73,17 +79,20 @@ public class BDSingleton {
             return rs;
             
         }catch(Exception e){
-            e.printStackTrace();
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "Ha ocurrido un error durante conexion con la BBDD","Error",JOptionPane.ERROR_MESSAGE);
             return null;
         }
     }
+    
     public boolean cerrarConexion(){
         try {
             stm.close();
             conn.close();
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "Ha ocurrido un error durante conexion con la BBDD","Error",JOptionPane.ERROR_MESSAGE);
             return false;
         }
         

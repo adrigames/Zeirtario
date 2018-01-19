@@ -162,11 +162,11 @@ public class IntroducirLibro extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         //introducir libro
-        String titulo = jTextField1.getText();
-        String autor = jTextField2.getText();
-        String genero = jTextField3.getText();
+        String titulo = jTextField1.getText().toUpperCase();
+        String autor = jTextField2.getText().toUpperCase();
+        String genero = jTextField3.getText().toUpperCase();
         String paginas = jTextField4.getText();
-        String sinopsis = jTextArea1.getText();
+        String sinopsis = jTextArea1.getText().toUpperCase();
         boolean respuesta =false;
         int paginasInt;
         try{

@@ -188,7 +188,7 @@ public class ProxyQuery {
         ArrayList<Usuario> obs = observandoArticulo(id_articulo);
         
         for(int i = 0; i<obs.size(); i++){
-        notificarUsuario("alquiler", obs.get(i).getId(), id_articulo);
+        notificarUsuario("baja", obs.get(i).getId(), id_articulo);
         }
         
         String s = "DELETE FROM ARTICULO WHERE CLAVE = " +id_articulo;
@@ -212,17 +212,27 @@ public class ProxyQuery {
         return false;
     }
     
+    public boolean dejarObservar(int id_usuario, int id_articulo){
+        String s = "DELETE FROM OBSERVACIONES WHERE ID_ARTICULO = " +id_articulo + " AND ID_USUARIO = " +id_usuario;
+        if(conexion.abrirConexion()&&conexion.ejecutarSentencia(s) && conexion.cerrarConexion()){
+            return true;
+        }
+        return false;
+    }
+    
     //REGION UPDATE
     
-    public boolean hacerAdmin(String dni){
-        boolean respuesta = false;
-        //modificar ese usuario para que sea admin
-        return respuesta;
+    public boolean hacerAdmin(int clave){
+        String s = "UPDATE USUARIO SET ADMIN = TRUE WHERE CLAVE = " +clave;
+        if(conexion.abrirConexion()&&conexion.ejecutarSentencia(s) && conexion.cerrarConexion()){
+            return true;
+        }
+        return false;
     }
     
     //Region seleccionar
     
-    public ArrayList<Disco> seleccionarDisco(String parametros){
+    public ArrayList<Articulo> seleccionarDisco(String parametros){
         String consulta = "SELECT * FROM ARTICULO INNER JOIN AUDIO ON ARTICULO.CLAVE = AUDIO.CLAVE ";
         if(parametros!=""){
             consulta += "AND ";
@@ -232,7 +242,7 @@ public class ProxyQuery {
             if(!conexion.abrirConexion())
                 return null;
             ResultSet rs = conexion.seleccionar(consulta);
-            ArrayList<Disco> resultado = new ArrayList<Disco>();
+            ArrayList<Articulo> resultado = new ArrayList<Articulo>();
             try {
                 while(rs.next()){
                     resultado.add(dameDisco(rs));
@@ -246,7 +256,7 @@ public class ProxyQuery {
         return null;
     }
     
-    public ArrayList<Libro> seleccionarLibro(String parametros){
+    public ArrayList<Articulo> seleccionarLibro(String parametros){
         String consulta = "SELECT * FROM ARTICULO INNER JOIN LIBRO ON ARTICULO.CLAVE = LIBRO.CLAVE ";
         if(parametros!=""){
             consulta += "AND ";
@@ -256,7 +266,7 @@ public class ProxyQuery {
             if(!conexion.abrirConexion())
                 return null;
             ResultSet rs = conexion.seleccionar(consulta);
-            ArrayList<Libro> resultado = new ArrayList<Libro>();
+            ArrayList<Articulo> resultado = new ArrayList<Articulo>();
             try {
                 while(rs.next()){
                     resultado.add(dameLibro(rs));
@@ -270,7 +280,7 @@ public class ProxyQuery {
         return null;
     }
     
-    public ArrayList<Comic> seleccionarComic(String parametros){
+    public ArrayList<Articulo> seleccionarComic(String parametros){
         String consulta = "SELECT * FROM ARTICULO INNER JOIN COMIC ON ARTICULO.CLAVE = COMIC.CLAVE ";
         if(parametros!=""){
             consulta += "AND ";
@@ -280,7 +290,7 @@ public class ProxyQuery {
             if(!conexion.abrirConexion())
                 return null;
             ResultSet rs = conexion.seleccionar(consulta);
-            ArrayList<Comic> resultado = new ArrayList<Comic>();
+            ArrayList<Articulo> resultado = new ArrayList<Articulo>();
             try {
                 while(rs.next()){
                     resultado.add(dameComic(rs));
@@ -294,7 +304,7 @@ public class ProxyQuery {
         return null;
     }
     
-    public ArrayList<Pelicula> seleccionarPelicula(String parametros){
+    public ArrayList<Articulo> seleccionarPelicula(String parametros){
         String consulta = "SELECT * FROM ARTICULO INNER JOIN CINE ON ARTICULO.CLAVE = CINE.CLAVE ";
         if(parametros!=""){
             consulta += "AND ";
@@ -304,7 +314,7 @@ public class ProxyQuery {
             if(!conexion.abrirConexion())
                 return null;
             ResultSet rs = conexion.seleccionar(consulta);
-            ArrayList<Pelicula> resultado = new ArrayList<Pelicula>();
+            ArrayList<Articulo> resultado = new ArrayList<Articulo>();
             try {
                 while(rs.next()){
                     resultado.add(damePelicula(rs));

@@ -133,9 +133,9 @@ public class IntroducirDisco extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         //introducir comic
-        String titulo = jTextField1.getText();
-        String autor = jTextField2.getText();
-        String genero = jTextField3.getText();
+        String titulo = jTextField1.getText().toUpperCase();
+        String autor = jTextField2.getText().toUpperCase();
+        String genero = jTextField3.getText().toUpperCase();
         String duracion = jTextField4.getText();
         boolean respuesta =false;
         int duracionInt;

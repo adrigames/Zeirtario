@@ -15,6 +15,12 @@ import proxy.ProxyQuery;
  */
 public class Adapter {
     ProxyQuery proxy = new ProxyQuery();
+    private final int ARTICULO = 0;
+    private final int DISCO = 1;
+    private final int CINE = 2;
+    private final int COMIC = 3;
+    private final int LIBRO = 4;
+    public int tipo = ARTICULO;
     public Adapter() {
     }
 
@@ -50,11 +56,26 @@ public class Adapter {
                     s+= " AND GENERO = '"  + oPar.getValor()+"'";
                 }
             }
-            if(oPar.getNombre().equals("TIPO")){
+            if(oPar.getNombre().equals("ACTORES")){
                 if(s.equals("")){
-                    s = "TIPO = '" + oPar.getValor()+"'";
+                    s = "ACTORES LIKE '" + oPar.getValor()+"'";
                 }else{
-                    s+= " AND TIPO = '"  + oPar.getValor()+"'";
+                    s+= " AND ACTORES LIKE '%"  + oPar.getValor()+"%'";
+                }
+            }
+            if(oPar.getNombre().equals("TIPO")){
+                String aux = oPar.getValor();
+                if(aux.equals("AUDIO")){
+                    tipo = DISCO;
+                }
+                if(aux.equals("COMIC")){
+                    tipo = COMIC;
+                }
+                if(aux.equals("CINE")){
+                    tipo = CINE;
+                }
+                if(aux.equals("LIBRO")){
+                    tipo = LIBRO;
                 }
             }
             if(oPar.getNombre().equals("RESERVADO")){
@@ -65,17 +86,29 @@ public class Adapter {
                 }
             }
             if(oPar.getNombre().equals("DURACION")){
+                String comp = "";
+                for (int j = 0; j<p.size();j++){
+                    if (p.get(j).getNombre().equals("COMPARADOR")){
+                        comp = p.get(j).getValor();
+                    }
+                }
                 if(s.equals("")){
-                    s = "DURACION = " + oPar.getValor();
+                    s = "DURACION "+ comp +" " + oPar.getValor();
                 }else{
-                    s+= " AND DURACION = "  + oPar.getValor();
+                    s+= " AND DURACION "+ comp +" "  + oPar.getValor();
                 }
             }
             if(oPar.getNombre().equals("PAGINAS")){
+                String comp = "";
+                for (int j = 0; j<p.size();j++){
+                    if (p.get(j).getNombre().equals("COMPARADOR")){
+                        comp = p.get(j).getValor();
+                    }
+                }
                 if(s.equals("")){
-                    s = "PAGINAS = " + oPar.getValor();
+                    s = "PAGINAS = "+ comp +" " + oPar.getValor();
                 }else{
-                    s+= " AND PAGINAS = "  + oPar.getValor();
+                    s+= " AND PAGINAS = "+ comp +" " + oPar.getValor();
                 }
             }
             if(oPar.getNombre().equals("ILUSTRADOR")){
@@ -89,10 +122,19 @@ public class Adapter {
         return s;
     }
     
-    public ArrayList<Disco> seleccionarDisco(ArrayList<Parametro> p){
+    public ArrayList<Articulo> seleccionarArticulo(ArrayList<Parametro> p){
         String sent = parseaParametros(p);
-        return proxy.seleccionarDisco(sent);
+        switch(tipo){
+            case ARTICULO: return proxy.seleccionarArticulo(sent);
+            case DISCO: return proxy.seleccionarDisco(sent);
+            case CINE: return proxy.seleccionarPelicula(sent);
+            case COMIC: return proxy.seleccionarComic(sent);
+            case LIBRO: return proxy.seleccionarLibro(sent);
+        }
+        return null;
     }
+    
+    
 }
 
 

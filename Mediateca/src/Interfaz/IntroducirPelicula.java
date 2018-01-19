@@ -182,12 +182,12 @@ public class IntroducirPelicula extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         //introducir comic
-        String titulo = jTextField1.getText();
-        String autor = jTextField2.getText();
-        String genero = jTextField3.getText();
-        String duracion = jTextField4.getText();
-        String sinopsis = jTextArea1.getText();
-        String actores = jTextArea2.getText();
+        String titulo = jTextField1.getText().toUpperCase();
+        String autor = jTextField2.getText().toUpperCase();
+        String genero = jTextField3.getText().toUpperCase();
+        String duracion = jTextField4.getText().toUpperCase();
+        String sinopsis = jTextArea1.getText().toUpperCase();
+        String actores = jTextArea2.getText().toUpperCase();
         boolean respuesta =false;
         int duracionInt;
         try{

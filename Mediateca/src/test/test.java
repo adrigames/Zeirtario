@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
+import mediateca.Articulo;
 import mediateca.Comic;
 import mediateca.Disco;
 import mediateca.Libro;
@@ -29,14 +30,9 @@ public class test {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-       ProxyQuery p = new ProxyQuery();
-       ArrayList<Disco> a = p.seleccionarDisco(" DURACION = 35 ");
+       
     }
 
-    static class Articulo {
-
-        public Articulo() {
-        }
-    }
+    
     
 }

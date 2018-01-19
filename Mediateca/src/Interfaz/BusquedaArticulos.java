@@ -5,9 +5,11 @@
  */
 package Interfaz;
 
+import adapter.Adapter;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import mediateca.Articulo;
+import mediateca.*;
 import mediateca.Fachada;
 import mediateca.Parametro;
 import proxy.ProxyQuery;
@@ -22,7 +24,7 @@ public class BusquedaArticulos extends javax.swing.JFrame {
     /**
      * Creates new form BusquedaArticulos
      */
-    private Contexto con;
+    private Contexto con = new Contexto();
     private Estrategia est = new estrategiaTitulo();
     private ArrayList<Articulo> resultado= new ArrayList<Articulo>();
     private ProxyQuery proxy = new ProxyQuery(); 
@@ -46,6 +48,7 @@ public class BusquedaArticulos extends javax.swing.JFrame {
     private final int MENORQUE = 1;
     private final int IGUAL = 2;
     private int compararActivo = MAYORQUE;
+    
     public BusquedaArticulos() {
         initComponents();
         inicializarPantalla();
@@ -60,6 +63,7 @@ public class BusquedaArticulos extends javax.swing.JFrame {
         mostrarTabla();
         cambiarEstrategia();
     }
+    
     private void mostrarCampos(){
         //Siempre desactivamos todos.
         lblDuracion.setVisible(false);
@@ -139,11 +143,58 @@ public class BusquedaArticulos extends javax.swing.JFrame {
     private void cargarGrid(ArrayList<Articulo> a){
         DefaultTableModel modelo = (DefaultTableModel) tablaResultados.getModel();
         modelo.setRowCount(0);
-        Object rowData[] = new Object[3];
+        Object rowData[];
+        switch(tipoActivo){
+            case AUDIO:
+                rowData = new Object[4];
+                break;
+            case CINE:
+                rowData = new Object[5];
+                break;
+            case COMIC:
+                rowData = new Object[5];
+                break;
+            case LIBRO:
+                rowData = new Object[4];
+                break;
+            default:
+                rowData = new Object[3];
+                break;
+        }
         for(int i = 0; i<a.size(); i++){
-            rowData[0] = a.get(i).getTitulo();
-            rowData[1] = a.get(i).getAutor();
-            rowData[2] = a.get(i).getGenero();
+            
+            switch(tipoActivo){
+                case AUDIO:
+                    rowData[0] = a.get(i).getTitulo();
+                    rowData[1] = a.get(i).getAutor();
+                    rowData[2] = a.get(i).getGenero();
+                    rowData[3] = ((Disco)a.get(i)).getDuracion();
+                    break;
+                case CINE:
+                    rowData[0] = a.get(i).getTitulo();
+                    rowData[1] = a.get(i).getAutor();
+                    rowData[2] = a.get(i).getGenero();
+                    rowData[3] = ((Pelicula)a.get(i)).getDuracion();
+                    rowData[4] = ((Pelicula)a.get(i)).getActores();
+                   break;
+                case COMIC:
+                    rowData[0] = a.get(i).getTitulo();
+                    rowData[1] = a.get(i).getAutor();
+                    rowData[2] = a.get(i).getGenero();
+                    rowData[3] = ((Comic)a.get(i)).getPaginas();
+                    rowData[4] = ((Comic)a.get(i)).getIlustrador();
+                    break;
+                case LIBRO:
+                    rowData[0] = a.get(i).getTitulo();
+                    rowData[1] = a.get(i).getAutor();
+                    rowData[2] = a.get(i).getGenero();
+                    rowData[3] = ((Libro)a.get(i)).getPaginas();
+                default:
+                    rowData[0] = a.get(i).getTitulo();
+                    rowData[1] = a.get(i).getAutor();
+                    rowData[2] = a.get(i).getGenero();
+                    break;
+            }
             modelo.addRow(rowData);
         }
     }
@@ -184,6 +235,79 @@ public class BusquedaArticulos extends javax.swing.JFrame {
             p.setValor(txtGenero.getText());
             lista.add(p);
         }
+        if(!txtDuracion.getText().isEmpty()){
+            p = new Parametro();
+            p.setNombre("DURACION");
+            p.setValor(txtDuracion.getText());
+            lista.add(p);
+        }
+        if(!txtPaginas.getText().isEmpty()){
+            p = new Parametro();
+            p.setNombre("PAGINAS");
+            p.setValor(txtPaginas.getText());
+            lista.add(p);
+        }
+        if(!txtIlustrador.getText().isEmpty()){
+            p = new Parametro();
+            p.setNombre("ILUSTRADOR");
+            p.setValor(txtIlustrador.getText());
+            lista.add(p);
+        }
+        if(!txtActores.getText().isEmpty()){
+            p = new Parametro();
+            p.setNombre("Actores");
+            p.setValor(txtActores.getText());
+            lista.add(p);
+        }
+        switch(compararActivo){
+            case MAYORQUE:
+                p = new Parametro();
+                p.setNombre("COMPARADOR");
+                p.setValor(">");
+                lista.add(p);
+                break;
+            case MENORQUE:
+                p = new Parametro();
+                p.setNombre("COMPARADOR");
+                p.setValor("<");
+                lista.add(p);
+                break;
+            case IGUAL:
+                p = new Parametro();
+                p.setNombre("COMPARADOR");
+                p.setValor("=");
+                lista.add(p);
+                break;
+        }
+        switch(tipoActivo){
+            case NINGUNO:
+                break;
+            case AUDIO:
+                p = new Parametro();
+                p.setNombre("TIPO");
+                p.setValor("AUDIO");
+                lista.add(p);
+                break;
+            case CINE:
+                p = new Parametro();
+                p.setNombre("TIPO");
+                p.setValor("CINE");
+                lista.add(p);
+                break;
+            case COMIC:
+                p = new Parametro();
+                p.setNombre("TIPO");
+                p.setValor("COMIC");
+                lista.add(p);
+                break;
+            case LIBRO:
+                p = new Parametro();
+                p.setNombre("TIPO");
+                p.setValor("LIBRO");
+                lista.add(p);
+                break;    
+        }
+        
         return lista;
     }
     
@@ -528,7 +652,12 @@ public class BusquedaArticulos extends javax.swing.JFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         ArrayList<Parametro> oParametro = dameParametros();
+        Adapter ad = new Adapter();
+        resultado = ad.seleccionarArticulo(oParametro);
         //resultado = proxy.seleccionarArticulo(oParametro);
+        con.setEst(est);
+        con.setLista(resultado);
+        resultado = con.ejecutaEstrategia();
         cargarGrid(resultado);
         
     }//GEN-LAST:event_btnBuscarActionPerformed

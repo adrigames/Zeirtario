@@ -85,6 +85,9 @@ public class Fachada {
         return mediateca.proxyDB.bajaUsuario(id);
     }
     
+    public static boolean bajaArticulo(int id){
+        return mediateca.proxyDB.bajaArticulo(id);
+    }
     public static boolean devolverArticulo(int id){
         boolean respuesta;
         respuesta = mediateca.proxyDB.devolverArticulo(id);
