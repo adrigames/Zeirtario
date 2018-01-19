@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import mediateca.Articulo;
 import mediateca.*;
+import javax.swing.JList;
 import mediateca.Fachada;
 import mediateca.Parametro;
 import proxy.ProxyQuery;
@@ -112,6 +113,8 @@ public class BusquedaArticulos extends javax.swing.JFrame {
     private void mostrarTabla(){
         DefaultTableModel modelo = (DefaultTableModel) tablaResultados.getModel();
         modelo.setColumnCount(3);
+
+        
         modelo.setRowCount(0);
         switch(tipoActivo){
             case NINGUNO:
@@ -433,7 +436,15 @@ public class BusquedaArticulos extends javax.swing.JFrame {
             new String [] {
                 "Titulo", "Autor", "Genero"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(tablaResultados);
 
         txtActores.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N

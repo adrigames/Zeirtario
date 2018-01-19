@@ -122,7 +122,6 @@ public class DarDeBaja extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         int i = miTabla.getSelectedRow();
-        System.out.println(lista.get(i).getTitulo());
         if(Fachada.getInstancia().bajaArticulo(lista.get(i).getId())){
             Component frame = null;
             JOptionPane.showMessageDialog(frame, "Se ha dado de baja el articulo " + lista.get(i).getTitulo(),"Informacion",JOptionPane.INFORMATION_MESSAGE);

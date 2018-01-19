@@ -5,9 +5,13 @@
  */
 package Interfaz;
 
+import java.awt.Component;
 import mediateca.Fachada;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import mediateca.Usuario;
 
 /**
  *
@@ -18,6 +22,8 @@ public class HacerAdmin extends javax.swing.JFrame {
     /**
      * Creates new form HacerAdmin
      */
+    ArrayList <Usuario> listaUsuarios;
+    
     public HacerAdmin() {
         initComponents();
         inicializar();
@@ -26,14 +32,21 @@ public class HacerAdmin extends javax.swing.JFrame {
     
     public void inicializar(){
 
-        ArrayList <String> listaUsuarios = Fachada.getInstancia().usuariosNoAdmin();//mediateca.usuariosNoAdmin();
+        listaUsuarios = Fachada.getInstancia().usuariosNoAdmin();//mediateca.usuariosNoAdmin();
         if(listaUsuarios != null){
             
             Iterator i = listaUsuarios.iterator();
+            DefaultTableModel modelo = (DefaultTableModel) miTabla.getModel();
+            modelo.setRowCount(0);
+            Object rowData[] = new Object[3];
+            Usuario u;
             while(i.hasNext()){
                 //mientras tenga usuarios sigue
-                jComboBox1.addItem(i.next().toString());
-                i.remove();
+                u = (Usuario)i.next();
+                rowData[0] = u.getNombre();
+                rowData[1] = u.getApellido();
+                rowData[2] = u.getEmail();
+                modelo.addRow(rowData);
             }
         }
     }
@@ -48,18 +61,13 @@ public class HacerAdmin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        miTabla = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("¿Qué usuario quieres hacer administrador?");
@@ -78,38 +86,54 @@ public class HacerAdmin extends javax.swing.JFrame {
             }
         });
 
+        miTabla.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        miTabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Apellido", "email"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(miTabla);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(jLabel1))
+                        .addComponent(jButton1)
+                        .addGap(171, 171, 171)
+                        .addComponent(jButton2))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(144, 144, 144)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(58, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(72, 72, 72))
+                        .addComponent(jLabel1)
+                        .addGap(42, 42, 42)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(67, 67, 67)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(28, 28, 28)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addGap(79, 79, 79))
+                .addContainerGap())
         );
 
         pack();
@@ -124,32 +148,17 @@ public class HacerAdmin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        new InterfazAdmin().setVisible(true);
-        //hacer al usuario admin
-        String usuario = jComboBox1.getSelectedItem().toString();
-        String[] splitedLista = usuario.split(",");//separa el dni, nombre y apellido
-        int id;
-        try{
-            id = Integer.valueOf(splitedLista[0]);
-        }catch(NumberFormatException e){
-            id = -1;
+        int i = miTabla.getSelectedRow();
+        
+        if(Fachada.getInstancia().hacerAdmin(listaUsuarios.get(i).getId())){
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "Se ha dado rol de administrador a la persona " + listaUsuarios.get(i).getNombre() + " "+ listaUsuarios.get(i).getApellido(),"Informacion",JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "Ha ocurrido un error durante la operacion " ,"Informacion",JOptionPane.INFORMATION_MESSAGE);
         }
-        boolean respuesta = Fachada.getInstancia().hacerAdmin(id);//cogemos el primer elemento ue es el dni
-        this.dispose();
+        inicializar();
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-        //meter usuarios a la combo box
-        /*ArrayList <String> listaUsuarios = Fachada.getInstancia().usuariosNoAdmin();//mediateca.usuariosNoAdmin();
-        if(listaUsuarios != null){
-            while(listaUsuarios.iterator().hasNext()){
-                //mientras tenga usuarios sigue
-                jComboBox1.addItem(listaUsuarios.iterator().next());
-                listaUsuarios.iterator().remove();
-            }
-        }*/
-    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -190,7 +199,8 @@ public class HacerAdmin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable miTabla;
     // End of variables declaration//GEN-END:variables
 }

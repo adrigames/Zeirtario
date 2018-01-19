@@ -65,21 +65,11 @@ public class Mediateca {
         return respuesta;
     }
     
-    public ArrayList<String> usuariosNoAdmin()
+    public ArrayList<Usuario> usuariosNoAdmin()
     {
         ArrayList<Usuario> listaUsuarios = proxyDB.obtenerUsuariosNoAdmin();
-        ArrayList<String> listaNombres = new ArrayList();
-        Usuario uAux;
-        if(listaUsuarios != null){
-            Iterator i = listaUsuarios.iterator();
-             while (i.hasNext()) {
-                uAux = (Usuario) i.next();
-                
-                boolean funciona = listaNombres.add(uAux.getId() + "," + uAux.getDni() + "," + uAux.getNombre() + "," + uAux.getApellido());
-                //listaUsuarios.iterator();
-            }
-        }
-        return listaNombres;
+        
+        return listaUsuarios;
     }
     
     public boolean insertarComic(String titulo, String autor, String ilustrador, String genero, int paginas, String sinopsis){

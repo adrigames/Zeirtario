@@ -5,9 +5,13 @@
  */
 package Interfaz;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import mediateca.Fachada;
+import mediateca.Usuario;
 
 /**
  *
@@ -18,20 +22,30 @@ public class BorrarUsuario extends javax.swing.JFrame {
     /**
      * Creates new form BorrarUsuario
      */
+    
+    ArrayList <Usuario> listaUsuarios;
     public BorrarUsuario() {
         initComponents();
+        inicializar();
     }
 
     public void inicializar(){
 
-        ArrayList <String> listaUsuarios = Fachada.getInstancia().usuariosNoAdmin();//mediateca.usuariosNoAdmin();
+        listaUsuarios = Fachada.getInstancia().usuariosNoAdmin();//mediateca.usuariosNoAdmin();
         if(listaUsuarios != null){
             
             Iterator i = listaUsuarios.iterator();
+            DefaultTableModel modelo = (DefaultTableModel) miTabla.getModel();
+            modelo.setRowCount(0);
+            Object rowData[] = new Object[3];
+            Usuario u;
             while(i.hasNext()){
                 //mientras tenga usuarios sigue
-                jComboBox1.addItem(i.next().toString());
-                i.remove();
+                u = (Usuario)i.next();
+                rowData[0] = u.getNombre();
+                rowData[1] = u.getApellido();
+                rowData[2] = u.getEmail();
+                modelo.addRow(rowData);
             }
         }
     }
@@ -47,8 +61,9 @@ public class BorrarUsuario extends javax.swing.JFrame {
 
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        miTabla = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,13 +81,26 @@ public class BorrarUsuario extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+        jLabel1.setText("Seleccione el usuario a borrar");
+
+        miTabla.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        miTabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Apellido", "email"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-
-        jLabel1.setText("Seleccione el usuario a borrar");
+        jScrollPane1.setViewportView(miTabla);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -86,25 +114,30 @@ public class BorrarUsuario extends javax.swing.JFrame {
                         .addGap(60, 60, 60)
                         .addComponent(jButton2))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(128, 128, 128)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(91, Short.MAX_VALUE))
+                        .addGap(125, 125, 125)
+                        .addComponent(jLabel1)))
+                .addContainerGap(99, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(12, 12, 12)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(13, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(69, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(64, 64, 64)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(99, 99, 99)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 241, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
                 .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(48, 48, 48)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(49, Short.MAX_VALUE)))
         );
 
         pack();
@@ -113,8 +146,16 @@ public class BorrarUsuario extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         
-        new InterfazAdmin().setVisible(true);
-        this.dispose();
+        int i = miTabla.getSelectedRow();
+        
+        if(Fachada.getInstancia().bajaUsuario(listaUsuarios.get(i).getId())){
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "Se ha dado de baja  a la persona " + listaUsuarios.get(i).getNombre() + " "+ listaUsuarios.get(i).getApellido(),"Informacion",JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "Ha ocurrido un error durante la baja de la persona "  + listaUsuarios.get(i).getNombre() + " "+ listaUsuarios.get(i).getApellido(),"Informacion",JOptionPane.INFORMATION_MESSAGE);
+        }
+        inicializar();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -122,19 +163,6 @@ public class BorrarUsuario extends javax.swing.JFrame {
         new InterfazAdmin().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-        //meter usuarios a la combo box
-        /*ArrayList <String> listaUsuarios = Fachada.getInstancia().usuariosNoAdmin();//mediateca.usuariosNoAdmin();
-        if(listaUsuarios != null){
-            while(listaUsuarios.iterator().hasNext()){
-                //mientras tenga usuarios sigue
-                jComboBox1.addItem(listaUsuarios.iterator().next());
-                listaUsuarios.iterator().remove();
-            }
-        }*/
-    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -174,7 +202,8 @@ public class BorrarUsuario extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable miTabla;
     // End of variables declaration//GEN-END:variables
 }

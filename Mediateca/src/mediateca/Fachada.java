@@ -58,7 +58,7 @@ public class Fachada {
         return respuesta;
     }
     
-    public static ArrayList<String> usuariosNoAdmin(){
+    public static ArrayList<Usuario> usuariosNoAdmin(){
         
         return mediateca.usuariosNoAdmin();
         
