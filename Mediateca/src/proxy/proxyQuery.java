@@ -159,15 +159,19 @@ public class ProxyQuery {
         notificarUsuario("alquiler", obs.get(i).getId(), id_articulo);
         }
         
-        String sent = "INSERT INTO TABLE RESERVAS(ID_ARTICULO, ID_USUARIO) VALUES ("+id_articulo+","+id_usuario+")";
+        String sent = "UPDATE ARTICULO SET RESERVADO = TRUE WHERE CLAVE =" +id_articulo;
+        if(conexion.abrirConexion()&&conexion.ejecutarSentencia(sent) && conexion.cerrarConexion()){
+             sent = "INSERT INTO RESERVAS(ID_ARTICULO, ID_USUARIO) VALUES ("+id_articulo+","+id_usuario+")";
         if(conexion.abrirConexion()&&conexion.ejecutarSentencia(sent) && conexion.cerrarConexion()){
             return true;
         }
+        }
+        
         return false;
     }
     
     public boolean observarArticulo(int id_articulo, int id_usuario){
-        String sent = "INSERT INTO TABLE OBSERVACIONES(ID_ARTICULO, ID_USUARIO) VALUES ("+id_articulo+","+id_usuario+")";
+        String sent = "INSERT INTO OBSERVACIONES(ID_ARTICULO, ID_USUARIO) VALUES ("+id_articulo+","+id_usuario+")";
         if(conexion.abrirConexion()&&conexion.ejecutarSentencia(sent) && conexion.cerrarConexion()){
             return true;
         }
@@ -392,6 +396,23 @@ public class ProxyQuery {
             return false;
     }
     
+    public boolean observandoArticulo(int idA, int idU){
+        String sent = "SELECT * FROM OBSERVACIONES WHERE ID_ARTICULO = " +idA + " AND ID_USUARIO =" +idU;
+        if(!conexion.abrirConexion())
+                return false;
+            ResultSet rs = conexion.seleccionar(sent);
+            try {
+                if(rs.next()){
+                     return true;
+                }
+                conexion.cerrarConexion();
+
+            } catch (SQLException ex) {
+                Logger.getLogger(ProxyQuery.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return false;
+    }
+    
     public ArrayList<String> verAvisos(int id_usuario){
         String sent = "SELECT * FROM AVISOS WHERE ID_USUARIO = "+id_usuario;
         
@@ -468,7 +489,7 @@ public class ProxyQuery {
     }
     
     public Articulo cargarArticulo(int id){
-        String sent = "SELECT * FROM ARTICULOS WHERE CLAVE = "+id;
+        String sent = "SELECT * FROM ARTICULO WHERE CLAVE = "+id;
         
             if(!conexion.abrirConexion())
                 return null;
@@ -484,7 +505,30 @@ public class ProxyQuery {
             }
         return null;
     }
+    
+    
     //METODOS PRIVADOS
+    
+    public String dameTipo(int id){
+        String s = "SELECT TIPO FROM ARTICULO WHERE CLAVE = " + id;
+        if(!conexion.abrirConexion())
+                return null;
+            ResultSet rs = conexion.seleccionar(s);
+            try {
+                if(rs.next()){
+                     return dameTipo2(rs);
+                }
+                conexion.cerrarConexion();
+
+            } catch (SQLException ex) {
+                Logger.getLogger(ProxyQuery.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return null;
+    }
+    
+    private String dameTipo2(ResultSet rs) throws SQLException{
+        return rs.getString("TIPO");
+    }
     
     private String dameAviso(ResultSet rs) throws SQLException{
         return rs.getString("AVISO");
