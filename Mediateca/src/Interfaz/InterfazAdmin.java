@@ -5,7 +5,11 @@
  */
 package Interfaz;
 
+import java.awt.Component;
+import javax.swing.JOptionPane;
+import mediateca.Articulo;
 import mediateca.Fachada;
+import mediateca.Usuario;
 
 /**
  *
@@ -186,8 +190,17 @@ public class InterfazAdmin extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        new DevolverArticulo().setVisible(true);
-        this.dispose();
+        Usuario user = Fachada.getInstancia().mediateca.usuarioConectado;
+        Articulo articulo = Fachada.getInstancia().articuloUsuario(user.getId());
+        if(articulo!=null){
+             new DevolverArticulo().setVisible(true);
+             this.dispose();
+        }else{
+            Component frame = null;
+        JOptionPane.showMessageDialog(frame, "Usted no tiene reservado ningun articulo","Informacion",JOptionPane.INFORMATION_MESSAGE);
+         boolean respuesta = Fachada.getAdminUser();
+        }
+       
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

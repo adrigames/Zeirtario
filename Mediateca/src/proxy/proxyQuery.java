@@ -350,14 +350,14 @@ public class ProxyQuery {
     }
     
     public Articulo verReserva(int id_usuario){
-        String sent = "SELECT * FROM RESERVAS WHERE ID_USUARIO = "+id_usuario;
+        String sent = "SELECT * FROM RESERVAS INNER JOIN ARTICULO ON ARTICULO.CLAVE = RESERVAS.ID_ARTICULO WHERE ID_USUARIO = "+id_usuario;
         
             if(!conexion.abrirConexion())
                 return null;
             ResultSet rs = conexion.seleccionar(sent);
             try {
                 if(rs.next()){
-                     return dameArticulo(rs);
+                     return dameArticulo2(rs);
                 }
                 conexion.cerrarConexion();
 
@@ -484,7 +484,18 @@ public class ProxyQuery {
     
     private Articulo dameArticulo(ResultSet rs) throws SQLException{
         Articulo res = new Articulo(
-        rs.getInt("CLAVE"),
+            rs.getInt("CLAVE"),
+             rs.getString("TITULO"),
+             rs.getString("AUTOR"),
+             rs.getString("GENERO"),
+             rs.getBoolean("RESERVADO")
+        );
+        return res;
+    }
+    
+    private Articulo dameArticulo2(ResultSet rs) throws SQLException{
+        Articulo res = new Articulo(
+            rs.getInt("ID_ARTICULO"),
              rs.getString("TITULO"),
              rs.getString("AUTOR"),
              rs.getString("GENERO"),

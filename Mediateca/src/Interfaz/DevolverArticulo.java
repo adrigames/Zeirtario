@@ -5,8 +5,10 @@
  */
 package Interfaz;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.JOptionPane;
 import mediateca.Articulo;
 import mediateca.Fachada;
 import mediateca.Usuario;
@@ -21,12 +23,26 @@ public class DevolverArticulo extends javax.swing.JFrame {
      * Creates new form DevolverArticulo
      */
     
+    Articulo articulo;
+    
     public DevolverArticulo() {
         initComponents();
         Usuario user = Fachada.getInstancia().mediateca.usuarioConectado;
-        Articulo articulo = Fachada.getInstancia().articuloUsuario(user.getId());
-        String texto = "Titulo: " + articulo.getTitulo() + ", Autor: " + articulo.getAutor() + ", Genero: " + articulo.getGenero();
-        jLabel2.setText(texto);
+        articulo = Fachada.getInstancia().articuloUsuario(user.getId());
+        Inicializar();
+    }
+    
+    public void Inicializar(){
+       
+        lblTitulo.setText(lblTitulo.getText()+" " + articulo.getTitulo());
+        lblAutor.setText(lblAutor.getText()+" " + articulo.getAutor());
+        lblGenero.setText(lblGenero.getText()+" " + articulo.getGenero());
+       
+        
+        
+        
+        
+        
     }
 
     /**
@@ -41,7 +57,9 @@ public class DevolverArticulo extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        lblTitulo = new javax.swing.JLabel();
+        lblAutor = new javax.swing.JLabel();
+        lblGenero = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,40 +80,55 @@ public class DevolverArticulo extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Articulo.");
+        lblTitulo.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblTitulo.setText("Titulo: ");
+        lblTitulo.setToolTipText("Titulo de su articulo");
+
+        lblAutor.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblAutor.setText("Autor: ");
+        lblAutor.setToolTipText("Titulo de su articulo");
+
+        lblGenero.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblGenero.setText("Genero:");
+        lblGenero.setToolTipText("Titulo de su articulo");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(80, 80, 80)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(81, 81, 81))
-            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(99, 99, 99)
-                        .addComponent(jLabel1))
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(196, 196, 196)
-                        .addComponent(jLabel2)))
-                .addContainerGap(117, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(0, 72, Short.MAX_VALUE))
+                            .addComponent(lblAutor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblGenero, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(58, 58, 58)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel1)
-                .addGap(47, 47, 47)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(lblTitulo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblGenero)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addGap(97, 97, 97))
+                .addContainerGap())
         );
 
         pack();
@@ -170,6 +203,8 @@ public class DevolverArticulo extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblAutor;
+    private javax.swing.JLabel lblGenero;
+    private javax.swing.JLabel lblTitulo;
     // End of variables declaration//GEN-END:variables
 }
