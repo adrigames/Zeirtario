@@ -7,7 +7,9 @@ package Interfaz;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import mediateca.Articulo;
 import mediateca.Fachada;
+import mediateca.Usuario;
 
 /**
  *
@@ -18,9 +20,13 @@ public class DevolverArticulo extends javax.swing.JFrame {
     /**
      * Creates new form DevolverArticulo
      */
+    
     public DevolverArticulo() {
         initComponents();
-        inicializar();
+        Usuario user = Fachada.getInstancia().mediateca.usuarioConectado;
+        Articulo articulo = Fachada.getInstancia().articuloUsuario(user.getId());
+        String texto = "Titulo: " + articulo.getTitulo() + ", Autor: " + articulo.getAutor() + ", Genero: " + articulo.getGenero();
+        jLabel2.setText(texto);
     }
 
     /**
@@ -32,22 +38,15 @@ public class DevolverArticulo extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lista de articulos", " " }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel1.setText("Seleccione el articulo que desea devolver");
+        jLabel1.setText("¿Desea devolver su articulo?");
 
         jButton1.setText("Devolver");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -63,34 +62,36 @@ public class DevolverArticulo extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Articulo.");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(177, 177, 177)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(53, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(80, 80, 80)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addGap(81, 81, 81))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(99, 99, 99)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(196, 196, 196)
+                        .addComponent(jLabel2)))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(58, 58, 58)
                 .addComponent(jLabel1)
-                .addGap(28, 28, 28)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addGap(47, 47, 47)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -104,8 +105,10 @@ public class DevolverArticulo extends javax.swing.JFrame {
         // TODO add your handling code here:
         boolean respuesta = Fachada.getAdminUser();
         //devolver articulo
-        String articulo = jComboBox1.getSelectedItem().toString();
-        String id = articulo.split(",")[0];
+        /*String articulo = jComboBox1.getSelectedItem().toString();
+        String id = articulo.split(",")[0];*/
+        Usuario user = Fachada.getInstancia().mediateca.usuarioConectado;
+        int id = Fachada.getInstancia().articuloUsuario(user.getId()).getId();//cogemos el id del objeto que tiene el usuario
         boolean devuelto = Fachada.getInstancia().devolverArticulo(id);
         if(respuesta)
         {
@@ -127,10 +130,6 @@ public class DevolverArticulo extends javax.swing.JFrame {
         }
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -166,25 +165,11 @@ public class DevolverArticulo extends javax.swing.JFrame {
             }
         });
     }
-
-    public void inicializar(){
-
-        ArrayList <String> listaArticulos = Fachada.getInstancia().sacarObjetosUsuario();//mediateca.usuariosNoAdmin();
-        if(listaArticulos != null){
-            
-            Iterator i = listaArticulos.iterator();
-            while(i.hasNext()){
-                //mientras tenga usuarios sigue
-                jComboBox1.addItem(i.next().toString());
-                i.remove();
-            }
-        }
-    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

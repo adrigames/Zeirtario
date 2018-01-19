@@ -73,15 +73,19 @@ public class Fachada {
         return mediateca.insertarComic(titulo, autor, ilustrador, genero, paginas, sinopsis);
     }
     
-    public static boolean hacerAdmin(String dni){
-        return mediateca.proxyDB.hacerAdmin(dni);
+    public static boolean hacerAdmin(int id){
+        return mediateca.proxyDB.hacerAdmin(id);
     }
     
-    public static ArrayList<String> sacarObjetosUsuario(){
-        return mediateca.articulosUsuario();
+    public static Articulo articuloUsuario(int id){
+        return Fachada.getInstancia().mediateca.proxyDB.verReserva(id);
     }
     
-    public static boolean devolverArticulo(String id){
+    public static boolean bajaUsuario(int id){
+        return mediateca.proxyDB.bajaUsuario(id);
+    }
+    
+    public static boolean devolverArticulo(int id){
         boolean respuesta;
         respuesta = mediateca.proxyDB.devolverArticulo(id);
         return respuesta;

@@ -31,17 +31,6 @@ public class Mediateca {
         usuarioConectado = null;
     }
     
-    public ArrayList<String> articulosUsuario(){
-        String dni = this.usuarioConectado.getDni();
-        ArrayList<String> articulos = new ArrayList<String>();
-        Iterator iterador = proxyDB.sacarArticulosUsuario(dni).iterator();
-        while(iterador.hasNext()){
-            Articulo articulo = (Articulo) iterador.next();
-            String aux = articulo.getTitulo()+","+articulo.getAutor()+","+articulo.getGenero();
-            articulos.add(aux);
-        }
-        return articulos;
-    }
     
     public void configurarUsuario(Usuario u, String nombre, String apellido, String dni, String sexo, int edad, String email, boolean admin,String pass) {
         u.setApellido(apellido);
@@ -86,7 +75,7 @@ public class Mediateca {
              while (i.hasNext()) {
                 uAux = (Usuario) i.next();
                 
-                boolean funciona = listaNombres.add(uAux.getDni() + "," + uAux.getNombre() + "," + uAux.getApellido());
+                boolean funciona = listaNombres.add(uAux.getId() + "," + uAux.getDni() + "," + uAux.getNombre() + "," + uAux.getApellido());
                 //listaUsuarios.iterator();
             }
         }

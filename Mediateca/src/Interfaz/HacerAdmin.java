@@ -128,7 +128,13 @@ public class HacerAdmin extends javax.swing.JFrame {
         //hacer al usuario admin
         String usuario = jComboBox1.getSelectedItem().toString();
         String[] splitedLista = usuario.split(",");//separa el dni, nombre y apellido
-        boolean respuesta = Fachada.getInstancia().hacerAdmin(splitedLista[0]);//cogemos el primer elemento ue es el dni
+        int id;
+        try{
+            id = Integer.valueOf(splitedLista[0]);
+        }catch(NumberFormatException e){
+            id = -1;
+        }
+        boolean respuesta = Fachada.getInstancia().hacerAdmin(id);//cogemos el primer elemento ue es el dni
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
