@@ -31,7 +31,6 @@ public class Mediateca {
         usuarioConectado = null;
     }
     
-    
     public void configurarUsuario(Usuario u, String nombre, String apellido, String dni, String sexo, int edad, String email, boolean admin,String pass) {
         u.setApellido(apellido);
         u.setDni(dni);

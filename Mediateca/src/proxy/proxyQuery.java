@@ -220,6 +220,14 @@ public class ProxyQuery {
         return false;
     }
     
+    public boolean borrarAvisos(int id_usuario){
+        String s = "DELETE FROM AVISOS WHERE ID_USUARIO = " +id_usuario;
+        if(conexion.abrirConexion()&&conexion.ejecutarSentencia(s) && conexion.cerrarConexion()){
+            return true;
+        }
+        return false;
+    }
+    
     //REGION UPDATE
     
     public boolean hacerAdmin(int clave){

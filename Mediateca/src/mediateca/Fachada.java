@@ -93,4 +93,12 @@ public class Fachada {
         respuesta = mediateca.proxyDB.devolverArticulo(id);
         return respuesta;
     }
+    
+    public static boolean borrarAvisos(int id){
+        return mediateca.proxyDB.borrarAvisos(id);
+    }
+    
+    public static ArrayList<String> verAvisos(int id){
+        return mediateca.proxyDB.verAvisos(id);
+    }
 }
